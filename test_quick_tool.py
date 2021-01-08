@@ -1,15 +1,21 @@
 import unittest
 import sqlite3
-from quick_tools import createDb
+from quick_tools import verifCreationTables
 import random
 import string
 
 class QuickToolsTester(unittest.TestCase):
 
-	def test_verif_creation_tables(self):
+	def test_verifCreationTables(self):
+		
 		random_len = random.randint(1,20)
 		test_nom = ''.join(random.choice(string.ascii_letters) for i in range(random_len))
-		self.assertFalse(verif_creation_tables(test_nom))
-		self.assertTrue(verif_creation_tables('Room'))
-		self.assertTrue(verif_creation_tables('Message'))
-		self.assertTrue(verif_creation_tables('User'))
+		self.assertFalse(verifCreationTables(test_nom))
+
+		self.assertTrue(verifCreationTables('Room'))
+		self.assertTrue(verifCreationTables('Message'))
+		self.assertTrue(verifCreationTables('User'))
+
+
+if __name__ == '__main__':
+    unittest.main()
