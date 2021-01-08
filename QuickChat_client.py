@@ -31,9 +31,7 @@ def disconnect():
 def connexion():
     sio.connect('http://{}:{}'.format(host, str(port)))
 
-
-
-if __name__ == '__main__':
+def main():
     arguments = docopt(help)
     if arguments['-p']:
         port = arguments['-p']
@@ -41,3 +39,6 @@ if __name__ == '__main__':
         host = arguments['--host']
 
     connexion()
+
+if __name__ == '__main__':
+    main()
