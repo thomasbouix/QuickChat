@@ -1,10 +1,6 @@
 # Ajout des tables Room, User et Message:
 
-Room doit contenir les paramètres id, name, password, private et size.
-
-User doit contenir les paramètres id, username et password.
-
-Message doit contenir les paramètres id, userId, roomId, mess et sendDate.
+La base de données doit contenir 3 tables : Room, User, Message
 
 On va ajouter les tests associés.
 
