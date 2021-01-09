@@ -1,5 +1,9 @@
 import unittest, sqlite3, random, string
-from quick_tools import create_db, add_user,verify_user_password,add_message
+from quick_tools import createDb, add_user,verify_user_password,add_message
+
+
+db_path = 'quick_chat.db'
+
 
 conn = sqlite3.connect(db_path)
 conn.row_factory = sqlite3.Row
@@ -11,7 +15,7 @@ class QuickToolsTester(unittest.TestCase):
 		c.execute('DROP TABLE IF EXISTS Room;')
 		c.execute('DROP TABLE IF EXISTS User;')
 		c.execute('DROP TABLE IF EXISTS Message;')
-		create_db(db_path)
+		createDb(db_path)
 		sql = "select * from User;"
 		table_name = ''
 		for row in c.execute(sql).fetchall():
