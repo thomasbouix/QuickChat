@@ -11,8 +11,12 @@ Etape 1:
 --
 Créer les fichiers quick_tools.py et test_quick_tools.py;
 	
-Ajouter les prototype vide des fonctions à réaliser
+Ajouter les prototype vide des fonctions à réaliser：
+
+addUser，addMessage, verifyUserPassword
 	
 Etape 2:
 --
-Ajouter les tests pour chaque fonctions
+Ajouter les tests pour chaque fonctions:
+
+test1_verifyUserPassword, test2_addUser, test3_addMessage
