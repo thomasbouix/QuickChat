@@ -9,10 +9,10 @@ def createDb(db_path):
 	cursor.execute('CREATE TABLE Message ([id] INTEGER PRIMARY KEY,[userId] INTEGER NOT NULL, [roomId] INTEGER NOT NULL, [mess] TEXT NOT NULL, [sendDate] TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(userId) REFERENCES User(id), FOREIGN KEY(roomId) REFERENCES Room(id))')
 	connect.commit()
 
-def verifCreationTables(table):
-	if table == 'Room' or table == 'User' or table == 'Message':
-		return True
-	return False
+# def verifCreationTables(table):
+# 	if table == 'Room' or table == 'User' or table == 'Message':
+# 		return True
+# 	return False
 
 # Db creation :
 db_path = 'quick_chat.db'
