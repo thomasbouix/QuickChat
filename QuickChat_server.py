@@ -9,5 +9,8 @@ app = Flask(__name__)
 app.config['TESTING'] = True
 socketio = SocketIO(app, async_mode='eventlet')
 
-if __name__ == '__main__':
+def main():
     socketio.run(app)
+
+if __name__ == '__main__':
+    main()
