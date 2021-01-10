@@ -1,6 +1,6 @@
 import sqlite3
 
-def verify_user_password(user_password):
+def verifyUserPassword(user_password):
 	# Extra requirement: check the password have number,special character, length>8 
 	is_number = 0
 	special_character = 0
@@ -18,13 +18,13 @@ def verify_user_password(user_password):
 		
 	return False
 
-def add_user(db_path, username, password):
+def addUser(db_path, username, password):
 
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 	
 	
-	if verify_user_password(password):
+	if verifyUserPassword(password):
 		sql = 'INSERT INTO User (username, password) VALUES (?,?)'
 		cursor.execute(sql,(username, password))
 
@@ -33,8 +33,8 @@ def add_user(db_path, username, password):
 	
 	connect.commit()
 
-def add_message(db_path, userId, roomId, mess):
-	
+def addMessage(db_path, userId, roomId, mess):
+
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 	
