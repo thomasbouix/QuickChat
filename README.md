@@ -21,3 +21,6 @@ Création d'un test pour la fonction deleteDb
 
 Etape 6 :
 Codage de la fonction deleteDB  + Vérification du test pour deleteDb
+
+Etape 7 :
+Modification de fonction createDb : toutes les colonnes  des tableaux sont à remplir ('not null')
