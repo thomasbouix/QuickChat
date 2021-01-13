@@ -41,6 +41,16 @@ def getUsernameById(userId):
 	return username
 
 
+def getRoomId(roomName):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
+	roomId = cursor.execute(sql).fetchone()[0]
+
+	return roomId
+
+
 
 # Db creation :
 db_path = 'quick_chat.db'
