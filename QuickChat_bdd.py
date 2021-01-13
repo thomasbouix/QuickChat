@@ -29,6 +29,18 @@ def getMessagesByRoomId(roomId):
 	messageList = cursor.execute(sql).fetchall()
 
 	return messageList
+	
+
+def getUsernameById(userId):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT username FROM User WHERE id = {}'.format(userId)
+	username = cursor.execute(sql).fetchone()[0]
+
+	return username
+
+
 
 # Db creation :
 db_path = 'quick_chat.db'
