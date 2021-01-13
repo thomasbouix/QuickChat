@@ -20,6 +20,16 @@ def deleteDb(db_path):
 
 	connect.commit()
 
+
+def getMessagesByRoomId(roomId):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
+	messageList = cursor.execute(sql).fetchall()
+
+	return messageList
+
 # Db creation :
 db_path = 'quick_chat.db'
 
