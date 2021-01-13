@@ -41,7 +41,7 @@ class testBDD(unittest.TestCase):
 		self.cursor.execute(sql)
 		self.connect.commit()
 
-		sql = 'SELECT * FROM Message WHERE roomId="1"'.format(roomId)
+		sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
 		res = QuickChat_bdd.getMessagesByRoomId(roomId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall(), res)
@@ -77,4 +77,5 @@ class testBDD(unittest.TestCase):
 
 
 if __name__ == '__main__':
+	os.system('rm -f quick_chat.db')
 	unittest.main()
