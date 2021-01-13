@@ -60,8 +60,20 @@ class testBDD(unittest.TestCase):
         # print(string)
         self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
-    def test_RoomId(self):
-        pass
+    def test_getRoomId(self):
+        QuickChat_bdd.deleteDb(self.db_path)
+        QuickChat_bdd.createDb(self.db_path)
+
+        roomName = "room1" 
+        sql = 'INSERT INTO Room (name, password, private, size) VALUES ("room1","pass","False",10)'
+        self.cursor.execute(sql)
+        self.connect.commit()
+        
+
+        sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
+        res = QuickChat_bdd.getRoomId(roomName)
+        # print(string)
+        self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
 if __name__ == '__main__':
     unittest.main()
