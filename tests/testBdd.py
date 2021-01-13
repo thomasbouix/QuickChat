@@ -46,7 +46,19 @@ class testBDD(unittest.TestCase):
         self.assertEqual(self.cursor.execute(sql).fetchall(), res)
 
     def test_getUsernameById(self):
-        pass
+        QuickChat_bdd.deleteDb(self.db_path)
+        QuickChat_bdd.createDb(self.db_path)
+
+        userId = 1 
+        sql = 'INSERT INTO User (username, password) VALUES ("player1","pass")'
+        self.cursor.execute(sql)
+        self.connect.commit()
+        
+        sql = 'SELECT username FROM User WHERE Id="{}";'.format(userId)
+
+        res = QuickChat_bdd.getUsernameById(userId)
+        # print(string)
+        self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
     def test_RoomId(self):
         pass
