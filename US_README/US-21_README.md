@@ -24,5 +24,9 @@ Codage de la fonction deleteDB  + Vérification du test pour deleteDb
 
 Etape 7 :
 Modification de fonction createDb : toutes les colonnes  des tableaux sont à remplir ('not null')
+
+Etape 8 : 
+Problème sur les tests par l'ajout d'une table sqlite_sequence --> Correction faite
+
 =======
 # Quick Chat
