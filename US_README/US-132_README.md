@@ -1,4 +1,4 @@
-# Ajout de la récupération des nom d'utilisateur en fonction de l'ID d'une user
+# Ajout de la récupération des noms d'utilisateur en fonction de l'ID d'un user
 
 ### Etape 1 :
 Détermination du cahier des charges des tests et de la fonction à réaliser.
