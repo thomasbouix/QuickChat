@@ -5,18 +5,35 @@ _**Author : Huiling BAO & Heyang LI**_
 
 Tâche à réaliser
 --
- Création de ‘faux’ messages et de users pour vérifier le bon fonctionnement du serveur 
+ Création des users dans le DB
+ 
+ QuickChat_bdd.py ---- create_Db, deleteDb;
+ 
+ QuickChat_user.py ---- verifierUserPassword, addUser;
+ 
+ test_user.py ---- les tests unitaires pour les fonctions dans QuickChat_user.py
+ 
+ 
+ QuickChat_client.py et QuickChat_serveur.py ne sont pas utilisé ici. On le utilisera dans la partie US-16X, intégré avec le serveur
  
 Etape 1: 
 --
-Créer les fichiers quick_tools.py et test_quick_tools.py;
+Créer les fichiers  QuickChat_user.py et test_user.py;
 	
 Ajouter les prototype vide des fonctions à réaliser：
 
-addUser，addMessage, verifyUserPassword
+addUser，verifyUserPassword
 	
 Etape 2:
 --
 Ajouter les tests pour chaque fonctions:
 
-test1_verifyUserPassword, test2_addUser, test3_addMessage
+test1_verifyUserPassword, test2_addUser
+
+Etape 3:
+--
+Compléter les fonctions dans le fichier QuickChat_user.py
+
+Etape 4:
+--
+Editer le readme
