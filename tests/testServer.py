@@ -16,13 +16,13 @@ class testServer(unittest.TestCase):
         connect = sqlite3.connect(self.db_path)
 
         cursor = connect.cursor()
-        cursor.execute('INSERT INTO User (username, password) VALUES ("player1","pass")')
+        cursor.execute('INSERT INTO User (username, password) VALUES ("user1","pass")')
         cursor.execute('INSERT INTO Room (name, password, private, size) VALUES ("room1","pass","False",10)')
         cursor.execute('INSERT INTO Message (userId, roomId, mess, sendDate) VALUES (1,1,"Mon premier message","{}")'.format(date))
         connect.commit()
 
         res = QuickChat_server.getHistorique("room1")
-        self.assertTrue(res == '["{player1} - {} : {Mon premier message}", ...]'.format(date))
+        self.assertTrue( res == '[{} - user1 : Mon premier message]'.format(date.split('.')[0])
 
 if __name__ == '__main__':
     unittest.main()
