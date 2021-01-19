@@ -5,18 +5,18 @@ _**Author : Huiling BAO & Heyang LI**_
 
 Tâche à réaliser
 --
- Création de ‘faux’ messages et de users pour vérifier le bon fonctionnement du serveur 
+ Script de la création de ‘faux’ messages et vérifier le bon fonctionnement du serveur 
  
 Etape 1: 
 --
-Créer les fichiers quick_tools.py et test_quick_tools.py;
+Créer les fichiers QuickChat_message.py;
 	
-Ajouter les prototype vide des fonctions à réaliser：
+Ajouter les prototype vide des fonctions à réaliser： 
 
-addUser，addMessage, verifyUserPassword
+addMessage
 	
 Etape 2:
 --
-Ajouter les tests pour chaque fonctions:
+Ajouter les tests pour chaque fonctions en utilisant la base de QuickChat_BDD: 
 
-test1_verifyUserPassword, test2_addUser, test3_addMessage
+test1_addMessage
