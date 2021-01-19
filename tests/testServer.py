@@ -21,7 +21,7 @@ class testServer(unittest.TestCase):
         cursor.execute('INSERT INTO Message (userId, roomId, mess, sendDate) VALUES (1,1,"Mon premier message","{}")'.format(date))
         connect.commit()
 
-        res = QuickChat_server.getHistorique()
+        res = QuickChat_server.getHistorique("room1")
         self.assertTrue(res == '["{player1} - {} : {Mon premier message}", ...]'.format(date))
 
 if __name__ == '__main__':
