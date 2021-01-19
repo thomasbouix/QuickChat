@@ -14,7 +14,7 @@ Tâche à réaliser
  test_user.py ---- les tests unitaires pour les fonctions dans QuickChat_user.py
  
  
- QuickChat_client.py et QuickChat_serveur.py ne sont pas utilisé ici. On le utilisera dans la partie US-16X, intégré avec le serveur
+ QuickChat_client.py et QuickChat_serveur.py ne sont pas utilisés ici. On les utilisera dans la partie US-16X, intégrés avec le serveur
  
 Etape 1: 
 --
