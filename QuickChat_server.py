@@ -9,6 +9,14 @@ app = Flask(__name__)
 app.config['TESTING'] = True
 socketio = SocketIO(app, async_mode='eventlet')
 
+@socketio.on('connexion')
+def connexion():
+    pass
+
+@socketio.on('message')
+def message():
+    pass
+
 def main():
     socketio.run(app)
 
