@@ -20,6 +20,35 @@ def deleteDb(db_path):
 
 	connect.commit()
 
+def getMessagesByRoomId(roomId):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
+	messageList = cursor.execute(sql).fetchall()
+
+	return messageList
+	
+
+def getUsernameById(userId):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT username FROM User WHERE id = {}'.format(userId)
+	username = cursor.execute(sql).fetchone()[0]
+
+	return username
+
+
+def getRoomId(roomName):
+	connect = sqlite3.connect(db_path)
+	cursor = connect.cursor()
+
+	sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
+	roomId = cursor.execute(sql).fetchone()[0]
+
+	return roomId
+
 # Db creation :
 db_path = 'quick_chat.db'
 
