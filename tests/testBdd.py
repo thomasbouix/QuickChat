@@ -42,7 +42,7 @@ class testBDD(unittest.TestCase):
 		self.connect.commit()
 
 		sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
-		res = QuickChat_bdd.getMessagesByRoomId(roomId)
+		res = QuickChat_bdd.getMessagesByRoomId(self.db_path, roomId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall(), res)
 
@@ -57,7 +57,7 @@ class testBDD(unittest.TestCase):
 
 		sql = 'SELECT username FROM User WHERE Id="{}";'.format(userId)
 
-		res = QuickChat_bdd.getUsernameById(userId)
+		res = QuickChat_bdd.getUsernameById(self.db_path, userId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
@@ -71,7 +71,7 @@ class testBDD(unittest.TestCase):
 		self.connect.commit()
 
 		sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
-		res = QuickChat_bdd.getRoomId(roomName)
+		res = QuickChat_bdd.getRoomId(self.db_path, roomName)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 

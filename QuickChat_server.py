@@ -7,6 +7,9 @@ from QuickChat_bdd import *
 import eventlet
 eventlet.monkey_patch()
 
+# Nom de la BDD
+db_path = 'quick_chat.db'
+
 app = Flask(__name__)
 app.config['TESTING'] = True
 socketio = SocketIO(app, async_mode='eventlet')
@@ -14,10 +17,10 @@ socketio = SocketIO(app, async_mode='eventlet')
 
 def getHistorique(roomName):
     historique = []
-    roomId = getRoomId(roomName)
-    messages = getMessagesByRoomId(roomId)
+    roomId = getRoomId(db_path, roomName)
+    messages = getMessagesByRoomId(db_path, roomId)
     for message in messages:
-        historique.append('{} - {} : {}'.format(message[4].split('.')[0], getUsernameById(message[1]), message[3]))
+        historique.append('{} - {} : {}'.format(message[4].split('.')[0], getUsernameById(db_path, message[1]), message[3]))
 
     return historique
 

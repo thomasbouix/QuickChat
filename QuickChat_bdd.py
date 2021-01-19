@@ -29,7 +29,7 @@ def resetDb(db_path) :
 		createDb(db_path)
 
 
-def getMessagesByRoomId(roomId):
+def getMessagesByRoomId(db_path, roomId):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 
@@ -39,7 +39,7 @@ def getMessagesByRoomId(roomId):
 	return messageList
 	
 
-def getUsernameById(userId):
+def getUsernameById(db_path, userId):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 
@@ -49,7 +49,7 @@ def getUsernameById(userId):
 	return username
 
 
-def getRoomId(roomName):
+def getRoomId(db_path, roomName):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 
@@ -57,10 +57,3 @@ def getRoomId(roomName):
 	roomId = cursor.execute(sql).fetchone()[0]
 
 	return roomId
-
-
-
-# Db creation :
-db_path = 'quick_chat.db'
-
-#createDb(db_path)

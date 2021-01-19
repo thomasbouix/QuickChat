@@ -7,10 +7,9 @@ from datetime import *
 
 class testServer(unittest.TestCase):
 
-    db_path = 'test_quick_chat.db'
+    db_path = 'quick_chat.db'
 
-    def test_reception_historique(self):
- 
+    def test_reception_historique(self): 
         date = datetime.now()
         QuickChat_bdd.resetDb(self.db_path)
         connect = sqlite3.connect(self.db_path)
@@ -22,7 +21,8 @@ class testServer(unittest.TestCase):
         connect.commit()
 
         res = QuickChat_server.getHistorique("room1")
-        self.assertTrue( res == '[{} - user1 : Mon premier message]'.format(date.split('.')[0])
+        self.assertTrue( res == ['{} - user1 : Mon premier message'.format(str(date).split('.')[0])])
+
 
 if __name__ == '__main__':
     unittest.main()
