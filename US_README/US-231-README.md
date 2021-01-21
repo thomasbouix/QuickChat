@@ -9,9 +9,7 @@ Tâche à réaliser
  
 Etape 1: 
 --
-Créer les fichiers QuickChat_message.py;
-	
-Ajouter les prototype vide des fonctions à réaliser： 
+Ajouter les prototype vide des fonctions à réaliser dans la fichier QuickChat_BDD.py： 
 
 addMessage
 	
@@ -19,4 +17,4 @@ Etape 2:
 --
 Ajouter les tests pour chaque fonctions en utilisant la base de QuickChat_BDD: 
 
-test1_addMessage
+test_Message_add
