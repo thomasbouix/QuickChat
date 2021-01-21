@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import unittest, sys, sqlite3, os
+import unittest, sys, sqlite3, os, random, string
 from datetime import *
 sys.path[:0] = ['../']
 import QuickChat_bdd, QuickChat_server
@@ -16,6 +16,9 @@ class testBDD(unittest.TestCase):
 		# sqlite_sequence : table interne qui gère les AUTOINCREMENT + insupprimable
 
 	def test_createDb(self):
+		self.cursor.execute('DROP TABLE IF EXISTS Room;')
+		self.cursor.execute('DROP TABLE IF EXISTS User;')
+		self.cursor.execute('DROP TABLE IF EXISTS Message;')
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = self.cursor.execute(sql).fetchall()
@@ -89,19 +92,17 @@ class testBDD(unittest.TestCase):
 
 	def test_addUser(self):
 
-		self.cursor.execute('DROP TABLE IF EXISTS Room;')
-		self.cursor.execute('DROP TABLE IF EXISTS User;')
-		self.cursor.execute('DROP TABLE IF EXISTS Message;')
-		QuickChat_bdd.createDb(db_path)
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
 
-		QuickChat_bdd.addUser(db_path,'yann.c','qwer123456,')  # add a correct user
+		QuickChat_bdd.addUser(self.db_path,'yann.c','qwer123456,')  # add a correct user
 		sql = "select username from User where username = 'yann.c';"
 		user_name = ''
 		for row in self.cursor.execute(sql):
 			user_name = row[0]
 		self.assertEqual(user_name,'yann.c')
 
-		QuickChat_bdd.addUser(db_path,'huiling.b','pass')  # add a user with wrong password format
+		QuickChat_bdd.addUser(self.db_path,'huiling.b','pass')  # add a user with wrong password format
 		sql = "select username from User where username = 'huiling.b';"
 		name = ''
 		for row in  self.cursor.execute(sql):

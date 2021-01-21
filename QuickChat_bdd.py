@@ -48,8 +48,6 @@ def getRoomId(roomName):
 	roomId = cursor.execute(sql).fetchone()[0]
 
 	return roomId
- import sqlite3
-# from QuickChat_bdd import CreateDb
 
 
 def verifyUserPassword(user_password):
@@ -81,7 +79,8 @@ def addUser(db_path, username, password):
 		cursor.execute(sql,(username, password))
 
 	else:
-		print("\nUsers ERROR: password should > 8 chars, includes numbers and special character")
+		# print("\nUsers ERROR: password should > 8 chars, includes numbers and special character")
+		pass
 	
 	connect.commit()
 
