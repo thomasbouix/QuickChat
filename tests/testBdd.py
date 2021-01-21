@@ -14,8 +14,9 @@ class testBDD(unittest.TestCase):
 		self.cursor = self.connect.cursor()
 
 		# sqlite_sequence : table interne qui gère les AUTOINCREMENT + insupprimable
-
+	
 	def test_createDb(self):
+		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = self.cursor.execute(sql).fetchall()
@@ -29,6 +30,17 @@ class testBDD(unittest.TestCase):
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		#print(self.cursor.execute(sql).fetchall())
 		self.assertEqual(self.cursor.execute(sql).fetchall(), [('sqlite_sequence',)])
+
+	def test_Message_add(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+		
+		QuickChat_bdd.addMessage(self.db_path,0,0,'faux')  # add a correct messqge
+		sql = "select mess from Message where mess = 'faux';"
+		mess = ''
+		for row in self.cursor.execute(sql):
+			mess = row[0]
+		self.assertEqual(mess,'faux')
 
 	def test_getMessagesByRoomId(self):
 		QuickChat_bdd.deleteDb(self.db_path)
