@@ -18,7 +18,7 @@ socketio = SocketIO(app, async_mode='eventlet')
 def getHistorique(roomName):
     historique = []
     roomId = getRoomId(db_path, roomName)
-    messages = getMessagesByRoomId(db_path, roomId)
+    messages = getMessagesByRoomId(roomId)
     for message in messages:
         historique.append('{} - {} : {}'.format(message[4].split('.')[0], getUsernameById(db_path, message[1]), message[3]))
 

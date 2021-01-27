@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-import unittest, sys, sqlite3, os
+import unittest, sys, sqlite3, os, random, string
 from datetime import *
 sys.path[:0] = ['../']
 import QuickChat_bdd, QuickChat_server
@@ -16,6 +16,11 @@ class testBDD(unittest.TestCase):
 		# sqlite_sequence : table interne qui gère les AUTOINCREMENT + insupprimable
 
 	def test_createDb(self):
+
+		self.cursor.execute('DROP TABLE IF EXISTS Room;')
+		self.cursor.execute('DROP TABLE IF EXISTS User;')
+		self.cursor.execute('DROP TABLE IF EXISTS Message;')
+
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = self.cursor.execute(sql).fetchall()
@@ -30,6 +35,17 @@ class testBDD(unittest.TestCase):
 		#print(self.cursor.execute(sql).fetchall())
 		self.assertEqual(self.cursor.execute(sql).fetchall(), [('sqlite_sequence',)])
 
+	def test_Message_add(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+
+		QuickChat_bdd.addMessage(self.db_path,0,0,'faux')  # add a correct messqge
+		sql = "select mess from Message where mess = 'faux';"
+		mess = ''
+		for row in self.cursor.execute(sql):
+			mess = row[0]
+		self.assertEqual(mess,'faux')
+
 	def test_getMessagesByRoomId(self):
 		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
@@ -42,7 +58,7 @@ class testBDD(unittest.TestCase):
 		self.connect.commit()
 
 		sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
-		res = QuickChat_bdd.getMessagesByRoomId(self.db_path, roomId)
+		res = QuickChat_bdd.getMessagesByRoomId(roomId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall(), res)
 
@@ -74,6 +90,37 @@ class testBDD(unittest.TestCase):
 		res = QuickChat_bdd.getRoomId(self.db_path, roomName)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
+
+	def test_verifyUserPassword(self):
+
+		self.assertFalse(QuickChat_bdd.verifyUserPassword('qwer')) # not long enough
+		self.assertFalse(QuickChat_bdd.verifyUserPassword('qwer123456')) # no special character
+
+		random_str_len = random.randint(5,10)
+
+		correct_password = ''.join(random.choice(string.ascii_lowercase) for i in range(random_str_len))
+		correct_password += '123456,'
+
+		self.assertTrue(QuickChat_bdd.verifyUserPassword(correct_password))
+
+	def test_addUser(self):
+
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+
+		QuickChat_bdd.addUser(self.db_path,'yann.c','qwer123456,')  # add a correct user
+		sql = "select username from User where username = 'yann.c';"
+		user_name = ''
+		for row in self.cursor.execute(sql):
+			user_name = row[0]
+		self.assertEqual(user_name,'yann.c')
+
+		QuickChat_bdd.addUser(self.db_path,'huiling.b','pass')  # add a user with wrong password format
+		sql = "select username from User where username = 'huiling.b';"
+		name = ''
+		for row in  self.cursor.execute(sql):
+			name = row[0]
+		self.assertEqual(name,'')
 
 
 if __name__ == '__main__':
