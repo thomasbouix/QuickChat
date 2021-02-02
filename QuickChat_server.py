@@ -12,7 +12,7 @@ socketio = SocketIO(app, async_mode='eventlet')
 
 @socketio.on('connexion')
 def connexion(data):
-    conn = sqlite3.connect('test_donnees.db')
+    conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 
     #On recupere les données du message envoyé
@@ -20,15 +20,15 @@ def connexion(data):
     usr = donnees['username']
     room = donnees['room']
 
-    print("User : {}, Room : {}".format(usr, room))
+    # print("User : {}, Room : {}".format(usr, room))
 
     #On recupere l'id de la room choisie
     req = "SELECT id FROM ROOM WHERE name=\"{}\";".format(room)
-    print(req)
+    # print(req)
     id_room = c.execute(req).fetchall()
     conn.commit()
 
-    print(id_room)
+    # print(id_room)
     id_room = id_room[0]
     if id_room is not None:
         #TODO : Quand room_id sera ajouté dans la table username,le rajouter
@@ -41,7 +41,7 @@ def connexion(data):
 
         #On envoie un message à tous les utilisateurs pour les prevenir
         msg_usr = "Utilisateur {} vient d'entrer dans la room {}".format(usr, room)
-        socketio.emit(msg_usr)
+        socketio.emit('message', msg_usr)
     else:
         print('Erreur, aucune room correspondante.')
 
@@ -51,7 +51,7 @@ import time
 @socketio.on('message_user')
 # @socketio.event
 def message(data):
-    conn = sqlite3.connect('test_donnees.db')
+    conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 
     #On recupere les données du message envoyé
@@ -65,8 +65,8 @@ def message(data):
 
 
     #on ajoute le message a la base de donnees
-    print("User_id :")
-    print(user_id)
+    # print("User_id :")
+    # print(user_id)
     values = "{}, 1, \"{}\"".format(user_id, message)
     req = "INSERT INTO MESSAGE (userId, roomId, mess) VALUES ({});".format(values)
     c.execute(req)
@@ -81,7 +81,7 @@ def message(data):
     #on recupere le sid
     # sid = request.namespace.socket.sessid
 
-    socketio.emit(message)
+    socketio.emit('message', message)
 
 def main():
     socketio.run(app)

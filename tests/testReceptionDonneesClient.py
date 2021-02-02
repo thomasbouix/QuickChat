@@ -5,6 +5,7 @@ import QuickChat_server as server
 import sqlite3
 import QuickChat_bdd as bdd
 import socketio
+import time
 
 #Client test afin de pouvoir tester le serveur
 # sio = socketio.Client()
@@ -31,45 +32,60 @@ class testReceptionDonneesClient(unittest.TestCase):
         cursor.execute(req)
         conn.commit()
 
+        #On emet des données type connexion au serveur
         sio_test.emit('connexion', "{\"username\":\"Jean\", \"room\":\"room_test\"}")
         sio_test.emit('connexion', "{\"username\":\"Jeremy\", \"room\":\"room_test\"}")
         sio_test.emit('connexion', "{\"username\":\"Jonathan\", \"room\":\"room_test\"}")
+
+        #On fait attendre le test 2 secondes afin que l'ajout des données ait le
+        #temps de se faire
+        time.sleep(2)
+
         #Verification de l'ajout du user dans la BDD
         req = "SELECT username FROM USER;"
         res = cursor.execute(req).fetchall()
         conn.commit()
-        print(res)
-        self.assertEqual(res, ['Jean','Jeremy','Jonathan']) #A verifier le format de res
+        # print(res)
+        self.assertEqual(res, [('Jean',), ('Jeremy',), ('Jonathan',)]) #A verifier le format de res
 
 
     def test_reception_donnees_message(self):
+
+        #On emet des données type message au serveur
         sio_test.emit('message_user', "{\"username\":\"Jean\", \"message\":\"Bonjour, je suis Jean\"}")
+        sio_test.emit('message_user', '{\"username\":\"Jeremy\", \"message\":\"Bonjour, je suis Jeremy\"}')
+        sio_test.emit('message_user', "{\"username\":\"Jonathan\", \"message\":\"Bonjour, je suis Jonathan\"}")
+        sio_test.emit('message_user', "{\"username\":\"Jeremy\", \"message\":\"Bonjour tout le monde !\"}")
+
+        #On fait attendre le test 2 secondes afin que l'ajout des données ait le
+        #temps de se faire
+        time.sleep(2)
+
         req = "SELECT id, userId, roomId, mess FROM MESSAGE WHERE id=1;"
         res = cursor.execute(req).fetchall()
         conn.commit()
-        print(res)
-        self.assertEqual(res, ['1','1','1', 'Bonjour, je suis Jean'])
+        # print(res)
+        self.assertEqual(res, [(1, 1, 1, 'Bonjour, je suis Jean')])
 
-        sio_test.emit('message_user', '{\"username\":\"Jeremy\", \"message\":\"Bonjour, je suis Jeremy\"}')
         req = "SELECT id, userId, roomId, mess FROM MESSAGE WHERE id=2;"
         res = cursor.execute(req).fetchall()
         conn.commit()
-        print(res)
-        self.assertEqual(res, ['2','2','1', 'Bonjour, je suis Jeremy'])
+        # print(res)
+        self.assertEqual(res, [(2, 2, 1, 'Bonjour, je suis Jeremy')])
 
-        sio_test.emit('message_user', "{\"username\":\"Jonathan\", \"message\":\"Bonjour, je suis Jonathan\"}")
+
         req = "SELECT id, userId, roomId, mess FROM MESSAGE WHERE id=3;"
         res = cursor.execute(req).fetchall()
         conn.commit()
-        print(res)
-        self.assertEqual(res, ['3','3','1', 'Bonjour, je suis Jonathan'])
+        # print(res)
+        self.assertEqual(res, [(3, 3, 1, 'Bonjour, je suis Jonathan')])
 
-        sio_test.emit('message_user', "{\"username\":\"Jeremy\", \"message\":\"Bonjour tout le monde !\"}")
+
         req = "SELECT id, userId, roomId, mess FROM MESSAGE WHERE id=4;"
         res = cursor.execute(req).fetchall()
         conn.commit()
-        print(res)
-        self.assertEqual(res, ['3','2','1', 'Bonjour tout le monde !'])
+        # print(res)
+        self.assertEqual(res, [(4, 2, 1, 'Bonjour tout le monde !')])
 
 if __name__ == '__main__':
     sio_test = socketio.Client()
