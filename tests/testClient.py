@@ -2,7 +2,7 @@
 
 import unittest, os, sys, unittest
 sys.path[:0] = ['../']
-import QuickChat_server, QuickChat_client
+import QuickChat_server, QuickChat_client, QuickChat_bdd
 
 class testClient(unittest.TestCase):
 
@@ -11,6 +11,7 @@ class testClient(unittest.TestCase):
         os.system('sleep 2')
         QuickChat_client.connexion()
         self.assertTrue(QuickChat_client.sio.connected)
+
 
 if __name__ == '__main__':
     unittest.main()
