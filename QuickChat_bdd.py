@@ -20,6 +20,12 @@ def deleteDb(db_path):
 
 	connect.commit()
 
+def resetDb(db_path) :
+	if (os.path.exists(db_path) == False) : 
+		createDb(db_path)
+	else :
+		deleteDb(db_path)
+		createDb(db_path)
 
 def getMessagesByRoomId(roomId):
 	connect = sqlite3.connect(db_path)
