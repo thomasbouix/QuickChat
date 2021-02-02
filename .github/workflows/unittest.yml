@@ -30,7 +30,7 @@ jobs:
           sudo apt-get install -y python3-eventlet
           sudo apt-get install -y python3-docopt
           sudo apt-get install -y python3-setuptools
-          sudo pip install python3-socketio
+          sudo pip3 install socketio
 
       # Runs a set of commands using the runners shell
       - name: Test de la base de données
