@@ -1,11 +1,14 @@
 import unittest
 import sys, os
 #
-import QuickChat_server as server
-import sqlite3
-import QuickChat_bdd as bdd
 import socketio
 import time
+import sqlite3
+
+sys.path[:0] = ['../']
+import QuickChat_server as server
+import QuickChat_bdd as bdd
+
 
 #Client test afin de pouvoir tester le serveur
 # sio = socketio.Client()
@@ -18,7 +21,7 @@ import time
 # sio.connect('http://localhost:5000')
 # print('my sid is', sio.sid)
 
-db_path = 'quick_chat.db'
+db_path = '../quick_chat.db'
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
