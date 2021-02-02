@@ -25,12 +25,12 @@ jobs:
       # Install dependencies
       - name: Installation des librairies
         run: |
-          sudo apt-get install -y python3-flask
-          sudo apt-get install -y python3-flask-socketio
-          sudo apt-get install -y python3-eventlet
-          sudo apt-get install -y python3-docopt
-          sudo apt-get install -y python3-setuptools
-          sudo pip3 install socketio
+          pip3 install --upgrade pip
+          pip3 install Flask
+          pip3 install Flask-SocketIO
+          pip3 install docopt
+          pip3 install eventlet
+          pip3 install setuptools
 
       # Runs a set of commands using the runners shell
       - name: Test de la base de données
