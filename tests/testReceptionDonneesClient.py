@@ -18,7 +18,7 @@ import time
 # sio.connect('http://localhost:5000')
 # print('my sid is', sio.sid)
 
-db_path = 'test_donnees.db'
+db_path = 'quick_chat.db'
 conn = sqlite3.connect(db_path)
 cursor = conn.cursor()
 
@@ -33,9 +33,9 @@ class testReceptionDonneesClient(unittest.TestCase):
         conn.commit()
 
         #On emet des données type connexion au serveur
-        sio_test.emit('connexion', "{\"username\":\"Jean\", \"room\":\"room_test\"}")
-        sio_test.emit('connexion', "{\"username\":\"Jeremy\", \"room\":\"room_test\"}")
-        sio_test.emit('connexion', "{\"username\":\"Jonathan\", \"room\":\"room_test\"}")
+        sio_test.emit('connexion', {"username":"Jean", "room":"room_test"})
+        sio_test.emit('connexion', {"username":"Jeremy", "room":"room_test"})
+        sio_test.emit('connexion', {"username":"Jonathan", "room":"room_test"})
 
         #On fait attendre le test 2 secondes afin que l'ajout des données ait le
         #temps de se faire
@@ -46,16 +46,16 @@ class testReceptionDonneesClient(unittest.TestCase):
         res = cursor.execute(req).fetchall()
         conn.commit()
         # print(res)
-        self.assertEqual(res, [('Jean',), ('Jeremy',), ('Jonathan',)]) #A verifier le format de res
+        self.assertEqual(res, [('Jean',), ('Jeremy',), ('Jonathan',)])
 
 
     def test_reception_donnees_message(self):
 
         #On emet des données type message au serveur
-        sio_test.emit('message_user', "{\"username\":\"Jean\", \"message\":\"Bonjour, je suis Jean\"}")
-        sio_test.emit('message_user', '{\"username\":\"Jeremy\", \"message\":\"Bonjour, je suis Jeremy\"}')
-        sio_test.emit('message_user', "{\"username\":\"Jonathan\", \"message\":\"Bonjour, je suis Jonathan\"}")
-        sio_test.emit('message_user', "{\"username\":\"Jeremy\", \"message\":\"Bonjour tout le monde !\"}")
+        sio_test.emit('message_user', {"username":"Jean", "message":"Bonjour, je suis Jean"})
+        sio_test.emit('message_user', {"username":"Jeremy", "message":"Bonjour, je suis Jeremy"})
+        sio_test.emit('message_user', {"username":"Jonathan", "message":"Bonjour, je suis Jonathan"})
+        sio_test.emit('message_user', {"username":"Jeremy", "message":"Bonjour tout le monde !"})
 
         #On fait attendre le test 2 secondes afin que l'ajout des données ait le
         #temps de se faire
@@ -94,7 +94,7 @@ if __name__ == '__main__':
     def connect():
         print("I'm connected!")
         print(sio_test.get_sid())
-        sio_test.emit('message', '{"data" : "Message test"}')
+        sio_test.emit('message', {"data" : "Message test"})
 
     @sio_test.on('message')
     def message(data):

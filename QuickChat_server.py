@@ -1,6 +1,5 @@
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room
-import json
 import sqlite3
 
 # for socketio
@@ -16,9 +15,9 @@ def connexion(data):
     c = conn.cursor()
 
     #On recupere les données du message envoyé
-    donnees = json.loads(data)
-    usr = donnees['username']
-    room = donnees['room']
+    usr = data['username']
+    room = data['room']
+    join_room(room)
 
     # print("User : {}, Room : {}".format(usr, room))
 
@@ -55,9 +54,8 @@ def message(data):
     c = conn.cursor()
 
     #On recupere les données du message envoyé
-    donnees = json.loads(data)
-    usr = donnees['username']
-    message = donnees['message']
+    usr = data['username']
+    message = data['message']
 
     #on recupere l'id de l'user
     req = "SELECT id from User where username=\"{}\";".format(usr)
