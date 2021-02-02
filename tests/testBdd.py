@@ -14,13 +14,13 @@ class testBDD(unittest.TestCase):
 		self.cursor = self.connect.cursor()
 
 		# sqlite_sequence : table interne qui gère les AUTOINCREMENT + insupprimable
-	
+
 	def test_createDb(self):
 
 		self.cursor.execute('DROP TABLE IF EXISTS Room;')
 		self.cursor.execute('DROP TABLE IF EXISTS User;')
 		self.cursor.execute('DROP TABLE IF EXISTS Message;')
-    
+
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = self.cursor.execute(sql).fetchall()
@@ -38,7 +38,7 @@ class testBDD(unittest.TestCase):
 	def test_Message_add(self):
 		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
-		
+
 		QuickChat_bdd.addMessage(self.db_path,0,0,'faux')  # add a correct messqge
 		sql = "select mess from Message where mess = 'faux';"
 		mess = ''
@@ -73,7 +73,7 @@ class testBDD(unittest.TestCase):
 
 		sql = 'SELECT username FROM User WHERE Id="{}";'.format(userId)
 
-		res = QuickChat_bdd.getUsernameById(userId)
+		res = QuickChat_bdd.getUsernameById(self.db_path, userId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
@@ -87,17 +87,17 @@ class testBDD(unittest.TestCase):
 		self.connect.commit()
 
 		sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
-		res = QuickChat_bdd.getRoomId(roomName)
+		res = QuickChat_bdd.getRoomId(self.db_path, roomName)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
-		
+
 	def test_verifyUserPassword(self):
 
 		self.assertFalse(QuickChat_bdd.verifyUserPassword('qwer')) # not long enough
 		self.assertFalse(QuickChat_bdd.verifyUserPassword('qwer123456')) # no special character
 
 		random_str_len = random.randint(5,10)
-		
+
 		correct_password = ''.join(random.choice(string.ascii_lowercase) for i in range(random_str_len))
 		correct_password += '123456,'
 

@@ -1,4 +1,4 @@
-import sqlite3
+import sqlite3, os
 
 def createDb(db_path):
 	connect = sqlite3.connect(db_path)
@@ -19,6 +19,13 @@ def deleteDb(db_path):
 
 	connect.commit()
 
+def resetDb(db_path) :
+	if (os.path.exists(db_path) == False) : 
+		createDb(db_path)
+	else :
+		deleteDb(db_path)
+		createDb(db_path)
+
 def getMessagesByRoomId(roomId):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
@@ -29,7 +36,7 @@ def getMessagesByRoomId(roomId):
 	return messageList
 	
 
-def getUsernameById(userId):
+def getUsernameById(db_path, userId):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 
@@ -39,7 +46,7 @@ def getUsernameById(userId):
 	return username
 
 
-def getRoomId(roomName):
+def getRoomId(db_path, roomName):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 
@@ -49,12 +56,12 @@ def getRoomId(roomName):
 	return roomId
 
 def addMessage(db_path, userId, roomId, mess):
-  connect = sqlite3.connect(db_path)
+	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
 	
 	sql = 'INSERT INTO Message (userId, roomId,mess) VALUES (?,?,?)'
 	cursor.execute(sql,(userId,roomId,mess))
-  connect.commit()
+	connect.commit()
   
 
 def verifyUserPassword(user_password):
