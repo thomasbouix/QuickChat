@@ -22,10 +22,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         
+      # Install dependencies
+      - name: Installation des librairies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install flask --upgrade
+
       # Runs a set of commands using the runners shell
       - name: Test de la base de données
         run: |
-          pip install flask
           python3 -m unittest tests/testBdd.py -v
       - name: Test du code Client
         run: |
