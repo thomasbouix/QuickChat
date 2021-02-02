@@ -35,11 +35,11 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Test de la base de données
         run: |
-          python3 -m unittest tests/testBdd.py -v
+          cd tests && python3 -m unittest testBdd.py -v
       - name: Test du code Client
         run: |
-          python3 -m unittest tests/testClient.py -v
+          cd tests && python3 -m unittest testClient.py -v
       - name: Test du code Serveur 
         run: |
-          python3 -m unittest tests/testServer.py -v
+          cd tests && python3 -m unittest testServer.py -v
   
