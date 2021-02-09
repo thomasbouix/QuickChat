@@ -33,14 +33,13 @@ def resetDb(db_path) :
         deleteDb(db_path)
         createDb(db_path)
 
+
 def getMessagesByRoomId(roomId):
     """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
-
     sql = 'SELECT * FROM Message WHERE roomId="{}"'.format(roomId)
     messageList = cursor.execute(sql).fetchall()
-
     return messageList
 
 def getUsernameById(db_path, userId):
@@ -58,14 +57,14 @@ def getRoomId(db_path, roomName):
     """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
-
     sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
+    if cursor.execute(sql).fetchone() is None : #Exception table Room vide
+        return None
     roomId = cursor.execute(sql).fetchone()[0]
-
     return roomId
 
 def addMessage(db_path, userId, roomId, mess):
-    """ Description : TODO """
+    """Ajout d'un message dans la table Message"""
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -91,22 +90,20 @@ def verifyUserName(user_name):
 
 def verifyUserPassword(user_password):
     """ Description : TODO """
-    # Extra requirement: check the password have number,special character, length>8
+	# Extra requirement: check the password have number,special character, length>8
     is_number = 0
     special_character = 0
-
     for i in user_password:
         if i.isdigit():
             is_number = 1
-
         if (not i.islower()) and (not i.isupper()) and (not i.isdigit()):
             special_character = 1
-
-    if len(user_password)>=8:
+    if len(user_password)>=8 :
         if is_number and special_character:
             return True
 
     return False
+
 
 def isUserInDatabase(db_path, username):
     """ Description : TODO """
@@ -123,6 +120,7 @@ def isUserInDatabase(db_path, username):
     return False
 
 
+
 def addUser(db_path, username, password):
     """ Description : TODO """
 
@@ -135,6 +133,7 @@ def addUser(db_path, username, password):
         cursor.execute(sql,(username, password))
 
     connect.commit()
+
 
 
 # Db creation :

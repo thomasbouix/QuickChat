@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-
+from unittest.mock import patch
 import unittest, os, sys, unittest
 sys.path[:0] = ['../']
 import QuickChat_server, QuickChat_client, QuickChat_bdd
 import shutil,shlex, subprocess
+import sqlite3
 
 import time
 
@@ -28,6 +29,27 @@ class testClient(unittest.TestCase):
         self.launch_server()
         QuickChat_client.connexion()
         self.assertTrue(QuickChat_client.sio.connected)
+
+    def test_verifArg(self):
+        self.assertFalse(QuickChat_client.verifArg(0))
+        self.assertFalse(QuickChat_client.verifArg(6))
+
+        self.assertTrue(QuickChat_client.verifArg(2))
+        self.assertTrue(QuickChat_client.verifArg(4))
+
+    @patch('QuickChat_client.getInput', return_value='Hello')
+    def test_writeMessage(self, input):
+        self.assertTrue(QuickChat_client.verifWriteMessage())
+
+    def test_listArg(self):
+        cmd = "python3 ../QuickChat_client.py name room &"
+        arg = shlex.split(cmd)
+        arg.remove('python3')
+        arg.remove('../QuickChat_client.py')
+        arg.remove('&')
+        data = QuickChat_client.listArg(arg)
+        self.assertEqual(data['username'], 'name')
+        self.assertEqual(data['room'], 'room')
 
     def test_historique(self):
         print("Mauvais type")
