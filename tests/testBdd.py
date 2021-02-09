@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
-import unittest, sys, sqlite3, os，random, string
+import unittest, sys, sqlite3, os, random, string
 from datetime import *
 sys.path[:0] = ['../']
-import QuickChat_bdd, QuickChat_server
+import QuickChat_bdd#, QuickChat_server
 
 class testBDD(unittest.TestCase):
 
@@ -20,6 +20,7 @@ class testBDD(unittest.TestCase):
 		self.cursor.execute('DROP TABLE IF EXISTS Room;')
 		self.cursor.execute('DROP TABLE IF EXISTS User;')
 		self.cursor.execute('DROP TABLE IF EXISTS Message;')
+		self.cursor.execute('DROP TABLE IF EXISTS RoomUser;')
 
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
@@ -34,7 +35,7 @@ class testBDD(unittest.TestCase):
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		#print(self.cursor.execute(sql).fetchall())
 		self.assertEqual(self.cursor.execute(sql).fetchall(), [('sqlite_sequence',)])
-	
+
 	def test_Message_add(self):
 		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
@@ -45,6 +46,28 @@ class testBDD(unittest.TestCase):
 		for row in self.cursor.execute(sql):
 			mess = row[0]
 		self.assertEqual(mess,'faux')
+
+	def test_addmessagefromclient(self) :
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+		
+		sql = 'INSERT INTO User (username, password) VALUES ("player1","testlogiciel1.");'
+		self.cursor.execute(sql)
+		sql = 'INSERT INTO Room (name, password, private, size) VALUES ("room1","pass","False",10);'
+		self.cursor.execute(sql)
+		sql = 'INSERT INTO RoomUser (idroom, iduser) VALUES (1,1);'
+		self.cursor.execute(sql)
+		self.connect.commit()
+		
+		username = 'player1'
+		payload = 'message'
+		QuickChat_bdd.addmessagefromclient(username,payload)
+		
+		sql = "select mess from Message where mess = 'message';"
+		mess = ''
+		for row in self.cursor.execute(sql):
+			mess = row[0]
+		self.assertEqual(mess,'message')
 
 	def test_getMessagesByRoomId(self):
 		QuickChat_bdd.deleteDb(self.db_path)
@@ -73,7 +96,7 @@ class testBDD(unittest.TestCase):
 
 		sql = 'SELECT username FROM User WHERE Id="{}";'.format(userId)
 
-		res = QuickChat_bdd.getUsernameById(userId)
+		res = QuickChat_bdd.getUsernameById(self.db_path, userId)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
@@ -87,7 +110,7 @@ class testBDD(unittest.TestCase):
 		self.connect.commit()
 
 		sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
-		res = QuickChat_bdd.getRoomId(roomName)
+		res = QuickChat_bdd.getRoomId(self.db_path, roomName)
 		# print(string)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], res)
 
@@ -122,6 +145,29 @@ class testBDD(unittest.TestCase):
 			name = row[0]
 		self.assertEqual(name,'')
 
+	def test_getUserId(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+
+		roomName = "room1"
+		sql = 'INSERT INTO User (username, password) VALUES ("player1","testlogiciel1.");'
+		self.cursor.execute(sql)
+		self.connect.commit()
+		
+		username = 'player1'
+		iduser = QuickChat_bdd.getIDfromusername(username)
+		sql = 'select id from User where username = "{}";'.format(username)
+		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], iduser)
+		
+	def test_join_roomfromid(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+		idroom = 1
+		iduser = 1
+		QuickChat_bdd.join_roomfromid(iduser,idroom)
+		
+		sql = 'select idroom from RoomUser where iduser = "{}";'.format(iduser)
+		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], idroom)
 
 
 if __name__ == '__main__':
