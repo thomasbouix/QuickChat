@@ -121,6 +121,48 @@ class testBDD(unittest.TestCase):
 		for row in  self.cursor.execute(sql):
 			name = row[0]
 		self.assertEqual(name,'')
+	
+	def testVerifyUserPassword(self):
+    	# Tests sur le Password
+
+        # Inferieur à 8 caractères
+		password = "Pass"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de nombre/caractère spécial
+		password = "Passwords"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de lettre/caractère spéciaux
+		password = "945530305"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de lettre/nombre
+		password = "§*$$µ*!_!"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de lettre
+		password = "9455§0£0!"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de nombre
+		password = "Passwo!§!"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Pas de caractère spécial
+		password = "P4ssw0rds"
+		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+
+		# Mot de passes valide aléatoire
+		for j in range(0, 10):          # Amélioration => tester tous les caractères
+			password = ""
+			for i in range(0, 7):
+				password += random.choice(string.ascii_letters)
+			password += random.choice(string.digits)
+			password += random.choice(string.punctuation)
+			self.assertTrue(QuickChat_bdd.verifyUserPassword(password))
+
+		return
 
 
 if __name__ == '__main__':
