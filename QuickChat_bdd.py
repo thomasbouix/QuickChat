@@ -78,20 +78,20 @@ def addMessage(db_path, userId, roomId, mess):
     connect.commit()
 
 def addmessagefromclient(username,payload):
-	connect = sqlite3.connect(db_path)
-	cursor = connect.cursor()
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
 
-	sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
-	for row in cursor.execute(sql):
-		iduser = row[0]
+    sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
+    for row in cursor.execute(sql):
+        iduser = row[0]
 
-	sql = 'SELECT idroom FROM RoomUser where iduser = {}'.format(iduser)
-	for row in cursor.execute(sql):
-		idroom = row[0]
-	connect.commit()
+    sql = 'SELECT idroom FROM RoomUser where iduser = {}'.format(iduser)
+    for row in cursor.execute(sql):
+        idroom = row[0]
+    connect.commit()
 
-	addMessage(db_path,iduser,idroom,payload)
-	
+    addMessage(db_path,iduser,idroom,payload)
+
 def verifyUserName(user_name):
     """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
@@ -147,45 +147,45 @@ def addUser(db_path, username, password):
 
 # ecrire par US22
 def addRoom(name, password, private, size):
-	conn = sqlite3.connect(db_path)
-	c = conn.cursor()
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
 
-	# Insert a new room in table
-	req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
-	c.execute(req)
-	conn.commit()
+    # Insert a new room in table
+    req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
+    c.execute(req)
+    conn.commit()
 
 def getIDfromusername(username):
-	connect = sqlite3.connect(db_path)
-	cursor = connect.cursor()
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
 
-	iduser = 0
+    iduser = 0
 
-	sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
-	for row in cursor.execute(sql):
-		iduser = row[0]
+    sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
+    for row in cursor.execute(sql):
+        iduser = row[0]
 
-	connect.commit()
-	return iduser
+    connect.commit()
+    return iduser
 
 def join_roomfromid(iduser,idroom):
-	connect = sqlite3.connect(db_path)
-	cursor = connect.cursor()
-	sql = 'INSERT INTO RoomUser (idroom,iduser) VALUES (?,?);'
-	cursor.execute(sql,(idroom,iduser))
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+    sql = 'INSERT INTO RoomUser (idroom,iduser) VALUES (?,?);'
+    cursor.execute(sql,(idroom,iduser))
 
-	connect.commit()
+    connect.commit()
 
 def leave_room(room,username):
-	iduser = getIDfromusername(username)
-	idroom = getRoomId(db_path,room)
-	connect = sqlite3.connect(db_path)
-	cursor = connect.cursor()
+    iduser = getIDfromusername(username)
+    idroom = getRoomId(db_path,room)
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
 
-	sql = 'DELETE FROM RoomUser WHERE idroom = {}'.format(idroom)
-	cursor.execute(sql)
+    sql = 'DELETE FROM RoomUser WHERE idroom = {}'.format(idroom)
+    cursor.execute(sql)
 
-	connect.commit()
+    connect.commit()
 
 
 # Db creation :
