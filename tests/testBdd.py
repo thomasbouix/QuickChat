@@ -22,6 +22,7 @@ class testBDD(unittest.TestCase):
 		self.cursor.execute('DROP TABLE IF EXISTS Message;')
 		self.cursor.execute('DROP TABLE IF EXISTS RoomUser;')
 
+
 		QuickChat_bdd.createDb(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = self.cursor.execute(sql).fetchall()
@@ -29,6 +30,7 @@ class testBDD(unittest.TestCase):
 		self.assertIn(('User',), res)
 		self.assertIn(('Message',), res)
 		self.assertIn(('RoomUser',), res)
+
 		self.assertIn(('sqlite_sequence',), res)
 
 	def test_deleteDb(self):
@@ -193,6 +195,7 @@ class testBDD(unittest.TestCase):
 		for row in  self.cursor.execute(sql):
 			idroom = row[0]
 		self.assertEqual(idroom,'')
+
 
 if __name__ == '__main__':
 	os.system('rm -f quick_chat.db')
