@@ -46,7 +46,7 @@ class testServer(unittest.TestCase):
 
     def launch_server(self):
 
-        cmd = "python3 ../server.py &"
+        cmd = "python3 ../QuickChat_server.py &"
         args = shlex.split(cmd)
         p  = subprocess.Popen(args) # launch command as a subprocess
         self.list_subprocess.append(p)
@@ -199,7 +199,7 @@ class testServer(unittest.TestCase):
     #     if(os.path.exists(cls.db_path)):
     #         print("Destruction de la db")
     #         os.remove(cls.db_path)
-    
+
     def test_add_room(self):
         bdd.resetDb(self.db_path)
         connect = sqlite3.connect(self.db_path)
