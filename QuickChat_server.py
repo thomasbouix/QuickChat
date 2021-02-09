@@ -45,7 +45,7 @@ def connexion(data):
                 addUser(db_path, usr, "1*EISE5A")
 
             #On envoie l'historique à l'utilisateur
-            
+
             #On envoie un message à tous les utilisateurs pour les prevenir
             msg_usr = "Utilisateur \033[94m{}\033[0m vient d'entrer dans la \033[94mroom {}\033[0m".format(usr, room)
             socketio.emit('message', msg_usr, room=room)
