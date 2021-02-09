@@ -55,7 +55,7 @@ def on_join(data):
 
 def join_room(room,username):
 	iduser = getIDfromusername(username)
-	idroom = getIDfromroomname(room)
+	idroom = getRoomId(db_path,room)
 	if iduser == NULL:
 		print('\033[91mServer log\033[0m Please sign up with this username')
 		emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.format(username)}, room=room)
