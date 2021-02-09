@@ -88,7 +88,7 @@ def verifyUserName(user_name):
             has_special_character = True
 
     if (not has_number) and (not has_special_character):
-        sql = 'SELECT user_name FROM User;'
+        sql = 'SELECT name FROM User;'
         user_names = cursor.execute(sql).fetchall()
         if user_name not in [name[0] for name in user_names]:
             return True
