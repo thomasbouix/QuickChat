@@ -3,7 +3,7 @@
 import unittest, sys, sqlite3, os, random, string
 from datetime import *
 sys.path[:0] = ['../']
-import QuickChat_bdd#, QuickChat_server
+import QuickChat_bdd, QuickChat_server
 
 class testBDD(unittest.TestCase):
 
@@ -169,6 +169,29 @@ class testBDD(unittest.TestCase):
 		sql = 'select idroom from RoomUser where iduser = "{}";'.format(iduser)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], idroom)
 
+	def test_join_roomfromid(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+		
+		roomName = "room1"
+		sql = 'INSERT INTO User (username, password) VALUES ("player1","testlogiciel1.");'
+		self.cursor.execute(sql)
+		sql = 'INSERT INTO Room (name, password, private, size) VALUES ("room1","pass","False",10);'
+		self.cursor.execute(sql)
+		sql = 'INSERT INTO RoomUser (idroom, iduser) VALUES (1,1);'
+		self.cursor.execute(sql)
+		self.connect.commit()
+
+		room = 'room1'
+		username = 'player1'
+		QuickChat_bdd.leave_room(room,username)
+		
+		iduser = 1
+		sql = 'select idroom from RoomUser where iduser = "{}";'.format(iduser)
+		idroom = ''
+		for row in  self.cursor.execute(sql):
+			idroom = row[0]
+		self.assertEqual(idroom,'')
 
 if __name__ == '__main__':
 	os.system('rm -f quick_chat.db')
