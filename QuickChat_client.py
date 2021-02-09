@@ -1,6 +1,7 @@
 """
     QuickChat_client : Gestion des messages clients et des arguments lors de l'execution du script
 """
+
 import socketio
 from docopt import docopt
 
