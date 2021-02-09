@@ -11,6 +11,9 @@ Ajout des fonctions:
 - writeMessage pour écrire un message, 
 - listArg pour stocker les données username, roomname 
 
-## Etape 4:
+## Etape 4 :
 Correction de getRoomId pour gérer l'exception où la room n'est pas disponible dans Room.
 Changement du nom room_test par une variable contenant la variable du nom de la room. 
+
+## Etape 5 :
+Visualisation des données dans l'US 341
