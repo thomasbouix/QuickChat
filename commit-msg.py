@@ -5,8 +5,6 @@ import re
 
 def main():
     """ Description : verification du format du nom du commit """
-    print("Number of arguments: %d" % len(sys.argv))
-    print("Argument List: %s" % str(sys.argv))
     with open(sys.argv[1], "r") as fp:
         ligne = fp.readlines()
 
