@@ -38,7 +38,7 @@ class testServer(unittest.TestCase):
 
     def launch_server(self):
 
-        cmd = "python3.7 ../QuickChat_server.py &"
+        cmd = "python3 ../QuickChat_server.py &"
         args = shlex.split(cmd)
         p  = subprocess.Popen(args) # launch command as a subprocess
         self.list_subprocess.append(p)
