@@ -40,6 +40,20 @@ def deconnexion():
     """ Description : TODO """
     sio.disconnect()
 
+@sio.on('historique')
+def affichageHistorique(data_historique):
+	if type(data_historique) != list:
+		print("pas type list")
+		return False
+
+	if not data_historique:
+		print("pas d'historique")
+		return False
+
+	for message in data_historique :
+		print(message)
+		print('\n')
+
 def main():
     """ Gestion des arguments passés lors de l'éxécution du script """
     arguments = docopt(help)
