@@ -119,7 +119,7 @@ def isUserInDatabase(db_path, username):
 
     if username in [name[0] for name in usernames]:
         return True
-    
+        
     return False
 
 
