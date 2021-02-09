@@ -1,5 +1,5 @@
 """ QuickChat_bdd.py
-    Description : TODO 
+    Description : TODO
 """
 import sqlite3
 import os

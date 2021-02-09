@@ -1,5 +1,5 @@
 
-name: test
+name: Pylint (Analyse syntaxique)
 
 on:
   push:
