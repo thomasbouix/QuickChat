@@ -30,7 +30,7 @@ def connexion(data):
     #On recupere les données du message envoyé
     usr = data['username']
     room = data['room']
-    join_room(room)
+    join_room(room,usr)
 
     # print("User : {}, Room : {}".format(usr, room))
 
@@ -100,15 +100,18 @@ def getHistorique(roomName):
 
 @socketio.on('Signup_room')
 def add_room(roomInfo):
+    """ Fonction créer un Room """
     addRoom(roomInfo['roomname'], roomInfo['password'], roomInfo['private'], roomInfo['size'])
 
 
 @socketio.on('Signup_user')
 def add_user(data):
+    """ Fonction créer un user """
     addUser(db_path,data['username'],data['password'])
 
 @socketio.on('message')
 def handle_message(data):
+    """ Fonction : TODO """
     username = data['username']
     payload = data['payload']
     addmessagefromclient(username,payload)
@@ -117,11 +120,13 @@ def handle_message(data):
 
 @socketio.on('join')
 def on_join(data):
+    """ Fonction : join the user into a room """
     username = data['username']
     room = data['room']
     join_room(room,username)
 
 def join_room(room,username):
+    """ Fonction : Join room """
     iduser = getIDfromusername(username)
     idroom = getRoomId(db_path,room)
     if iduser == 0:
@@ -137,6 +142,7 @@ def join_room(room,username):
 
 @socketio.on('leave')
 def on_leave(data):
+    """ Fonction : delete room-user """
     username = data['username']
     room = data['room']
     leave_room(room,username)

@@ -145,15 +145,6 @@ def addUser(db_path, username, password):
 
     connect.commit()
 
-# ecrire par US22
-def addRoom(name, password, private, size):
-    conn = sqlite3.connect(db_path)
-    c = conn.cursor()
-
-    # Insert a new room in table
-    req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
-    c.execute(req)
-    conn.commit()
 
 def getIDfromusername(username):
     connect = sqlite3.connect(db_path)
