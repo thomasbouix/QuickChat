@@ -94,7 +94,7 @@ def addRoom(name, password, private, size):
     c = conn.cursor()
 
     # Insert a new room in table
-    req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
+    req = 'INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);' % (name, password, private, size)
     c.execute(req)
     conn.commit()
 
