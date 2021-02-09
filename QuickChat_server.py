@@ -90,7 +90,7 @@ def getHistorique(roomName):
 
 # private = 1: private, private = 0: public
 def addRoom(name, password, private, size):
-    '''Description : TODO'''
+    """ Description : TODO """
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
 
