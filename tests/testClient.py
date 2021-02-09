@@ -29,6 +29,15 @@ class testClient(unittest.TestCase):
         QuickChat_client.connexion()
         self.assertTrue(QuickChat_client.sio.connected)
 
+    def test_historique(self):
+        print("Mauvais type")
+        entier = 0
+        self.assertFalse(QuickChat_client.affichageHistorique(entier))
+	
+        print("Test list vide")
+        vide = []
+        self.assertFalse(QuickChat_client.affichageHistorique(vide))
+
     def tearDown(self):
         QuickChat_client.deconnexion()
         self.kill_subprocess()
