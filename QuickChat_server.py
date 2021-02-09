@@ -1,11 +1,14 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO, emit, join_room, leave_room
-from datetime import datetime
-from QuickChat_bdd import *
-
+"""
+    QuickChat_server : Gestion de l'historique d'une room
+"""
 # for socketio
 import eventlet
 eventlet.monkey_patch()
+
+from datetime import datetime
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit, join_room, leave_room
+from QuickChat_bdd import *
 
 # Nom de la BDD
 db_path = 'quick_chat.db'
@@ -16,6 +19,7 @@ socketio = SocketIO(app, async_mode='eventlet')
 
 
 def getHistorique(roomName):
+    """ Fonction permettant de recupérer l'historique d'une Room """
     historique = []
     roomId = getRoomId(db_path, roomName)
     messages = getMessagesByRoomId(roomId)
@@ -26,6 +30,7 @@ def getHistorique(roomName):
 
 
 def main():
+    """ MAIN """
     socketio.run(app)
 
 if __name__ == '__main__':
