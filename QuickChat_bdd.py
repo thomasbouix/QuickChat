@@ -91,7 +91,7 @@ def addmessagefromclient(username,payload):
     connect.commit()
 
     addMessage(db_path,iduser,idroom,payload)
-    
+
 def verifyUserName(user_name):
     """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
