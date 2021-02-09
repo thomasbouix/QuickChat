@@ -17,6 +17,15 @@ class testServer(unittest.TestCase):
     db_path = 'quick_chat.db'
     list_subprocess = []
 
+    # Classmethod appelé à la fin de tous les tests
+    # @classmethod
+    # def setUpClass(cls):
+    #     # Initialisation de la db et du path
+    #     cls.db_path = 'quick_chat.db'
+    #     print("Initialise cls.db_path to quick_chat.db")
+    #     cls.connect = sqlite3.connect(cls.db_path)
+    #     cls.cursor = cls.connect.cursor()
+
     def test_reception_historique(self):
         date = datetime.now()
         bdd.resetDb(self.db_path)
@@ -150,6 +159,26 @@ class testServer(unittest.TestCase):
         self.conn.commit()
         # print(res)
         self.assertEqual(res, [(4, 2, 1, 'Bonjour tout le monde !')])
+    
+    def test_Add_Room(self):
+        # Test d'ajout d'une salle
+        bdd.resetDb(self.db_path)
+        server.addRoom("room1", "0000", False, 10)
+        print("Test de creation d'une room dans la table")
+        requete = "SELECT * FROM Room;"
+        resp = self.cursor.execute(requete).fetchall()
+        self.assertEqual(resp, [(1, 'room1', '0000', 0, 10)])
+        
+        requete = "DROP TABLE Room;"
+        self.cursor.execute(requete)
+
+    # Classmethod appelé à la fin de tous les tests
+    # @classmethod
+    # def tearDownClass(cls):
+    #     cls.connect.close()
+    #     if(os.path.exists(cls.db_path)):
+    #         print("Destruction de la db")
+    #         os.remove(cls.db_path)
 
 if __name__ == '__main__':
     unittest.main()

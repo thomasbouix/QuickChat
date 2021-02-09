@@ -95,6 +95,17 @@ def getHistorique(roomName):
 
     return historique
 
+# private = 1: private, private = 0: public
+def addRoom(name, password, private, size):
+    """ Description : TODO """
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    # Insert a new room in table
+    req = 'INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);' % (name, password, private, size)
+    c.execute(req)
+    conn.commit()
+
 def main():
     """ MAIN """
     socketio.run(app)
