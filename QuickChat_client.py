@@ -34,7 +34,11 @@ def connexion():
 #Fonction permettant de se deconnecter
 def deconnexion():
     sio.disconnect()
-    
+
+#Ecriture et envoie d'un message
+def send_message():
+    pass
+
 def main():
     arguments = docopt(help)
     if arguments['-p']:
