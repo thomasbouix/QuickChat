@@ -138,11 +138,6 @@ class testBDD(unittest.TestCase):
 		username = "Username"
 		self.assertTrue(QuickChat_bdd.verifyUserName(username))
 
-		# Utilisateur déjà existant
-		QuickChat_bdd.addUser(self.db_path, "User", "Passw0rd!")
-		username = "User"
-		self.assertFalse(QuickChat_bdd.verifyUserName(username))
-
 		return
 
 	def testIsUserInDatabase(self) :
@@ -153,8 +148,8 @@ class testBDD(unittest.TestCase):
 		self.cursor.execute(sql)
 		self.connect.commit()
 		
-		self.assertTrue(QuickChat_bdd.isUserInDatabase('user0'))
-		self.assertFalse(QuickChat_bdd.isUserInDatabase('user1'))
+		self.assertTrue(QuickChat_bdd.isUserInDatabase(self.db_path, 'user0'))
+		self.assertFalse(QuickChat_bdd.isUserInDatabase(self.db_path, 'user1'))
 		
 		return
 
