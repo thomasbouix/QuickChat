@@ -40,15 +40,16 @@ def connexion(data):
         #TODO : Quand room_id sera ajouté dans la table username,le rajouter
         #dans la requête
 
-        #On insere l'user dans la base de données
-        addUser(db_path, usr, "1*EISE5A")
+        #On insere l'user dans la base de données si son username est correct
+        if verifyUserName(usr):
+            if not isUserInDatabase(db_path, usr):
+                addUser(db_path, usr, "1*EISE5A")
 
-        #On envoie l'historique à l'utilisateur
+            #On envoie l'historique à l'utilisateur
 
-
-        #On envoie un message à tous les utilisateurs pour les prevenir
-        msg_usr = "Utilisateur \033[94m{}\033[0m vient d'entrer dans la \033[94mroom {}\033[0m".format(usr, room)
-        socketio.emit('message', msg_usr, room=room)
+            #On envoie un message à tous les utilisateurs pour les prevenir
+            msg_usr = "Utilisateur \033[94m{}\033[0m vient d'entrer dans la \033[94mroom {}\033[0m".format(usr, room)
+            socketio.emit('message', msg_usr, room=room)
     else:
         print('Erreur, aucune room correspondante.')
 
