@@ -27,7 +27,7 @@ class testServer(unittest.TestCase):
     	connect = sqlite3.connect(self.db_path)
         cursor = connect.cursor()
     	cursor.execute('DROP TABLE IF EXISTS RoomUser;')
-
+    	
 		QuickChat_server.create_room_user(self.db_path)
 		sql = "SELECT name FROM sqlite_master WHERE type='table';"
 		res = cursor.execute(sql).fetchall()
@@ -74,15 +74,51 @@ class testServer(unittest.TestCase):
     def test_add_room(self):
     	pass
 
-    def verifier_existence(self):
-    	pass
+    def verifier_existence(self):  # chercher le idroom et idnom correspondant
+    	QuickChat_bdd.resetDb(self.db_path)
+        connect = sqlite3.connect(self.db_path)
+        cursor = connect.cursor()
+
+        # si le room et user est déjà créés,retourne leur id
+        QuickChat_server.add_room("room1")
+        QuickChat_server.add_user("user1")
+        iduser, idroom = QuickChat_server.verifier_existence("room1","user1")
+        self.assertEqual(iduser, 1)
+        self.assertEqual(idroom, 1)
+
+        # si le room et user ne sont pas encore créés, les crée et retourne leur id
+        iduser, idroom = QuickChat_server.verifier_existence("room2","user2")
+        self.assertEqual(iduser, 2)
+        self.assertEqual(idroom, 2)
+    
+        connect.commit()
 
     def join_room(self):
-    	pass
+    	QuickChat_bdd.resetDb(self.db_path)
+        connect = sqlite3.connect(self.db_path)
+        cursor = connect.cursor()
+
+        QuickChat_server.join_room("room1","user1")
+        sql = 'SELECT idroom FROM RoomUser WHERE iduser=1;'
+
+        self.assertEqual(cursor.execute(sql).fetchall()[0][0], 1)
+
+        connect.commit()
 
     def leave_room(self):
-    	pass
+    	QuickChat_bdd.resetDb(self.db_path)
+        connect = sqlite3.connect(self.db_path)
+        cursor = connect.cursor()
 
+        QuickChat_server.join_room("room1","user1")
+        QuickChat_server.leave_room("room1","user1")
+
+        sql = 'SELECT idroom FROM RoomUser WHERE iduser=1;'
+        res = cursor.execute(sql).fetchall()
+
+        self.assertNotIn((1,), res)
+
+        connect.commit()
 
 
 if __name__ == '__main__':
