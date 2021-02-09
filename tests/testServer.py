@@ -17,14 +17,14 @@ class testServer(unittest.TestCase):
 
     list_subprocess = []
 
-    Classmethod appelé à la fin de tous les tests
-    @classmethod
-    def setUpClass(cls):
-        # Initialisation de la db et du path
-        cls.db_path = 'quick_chat.db'
-        print("Initialise cls.db_path to quick_chat.db")
-        cls.connect = sqlite3.connect(cls.db_path)
-        cls.cursor = cls.connect.cursor()
+    # Classmethod appelé à la fin de tous les tests
+    # @classmethod
+    # def setUpClass(cls):
+    #     # Initialisation de la db et du path
+    #     cls.db_path = 'quick_chat.db'
+    #     print("Initialise cls.db_path to quick_chat.db")
+    #     cls.connect = sqlite3.connect(cls.db_path)
+    #     cls.cursor = cls.connect.cursor()
 
     def test_reception_historique(self):
         date = datetime.now()
