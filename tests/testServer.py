@@ -119,15 +119,19 @@ class testServer(unittest.TestCase):
         #On emet des données type message au serveur
         self.sio_test.emit('message_user',\
          {"username":"Jean",\
+         "room":"room_test",\
          "message":"Bonjour, je suis Jean"})
         self.sio_test.emit('message_user',\
          {"username":"Jeremy",\
+         "room":"room_test",\
           "message":"Bonjour, je suis Jeremy"})
         self.sio_test.emit('message_user',\
          {"username":"Jonathan",\
+         "room":"room_test",\
           "message":"Bonjour, je suis Jonathan"})
         self.sio_test.emit('message_user',\
          {"username":"Jeremy",\
+         "room":"room_test",\
           "message":"Bonjour tout le monde !"})
 
         #On fait attendre le test 2 secondes afin que l'ajout des données ait le
@@ -159,7 +163,7 @@ class testServer(unittest.TestCase):
         self.conn.commit()
         # print(res)
         self.assertEqual(res, [(4, 2, 1, 'Bonjour tout le monde !')])
-    
+
     def test_Add_Room(self):
         # Test d'ajout d'une salle
         bdd.resetDb(self.db_path)
@@ -168,7 +172,7 @@ class testServer(unittest.TestCase):
         requete = "SELECT * FROM Room;"
         resp = self.cursor.execute(requete).fetchall()
         self.assertEqual(resp, [(1, 'room1', '0000', 0, 10)])
-        
+
         requete = "DROP TABLE Room;"
         self.cursor.execute(requete)
 
