@@ -93,7 +93,7 @@ def addmessagefromclient(username,payload):
 
     addMessage(db_path,iduser,idroom,payload)
 
-def verifyUserName(db_path,user_name):
+def verifyUserName(user_name):
     """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
     has_number = False
@@ -107,9 +107,6 @@ def verifyUserName(db_path,user_name):
 
     if (not has_number) and (not has_special_character):
         return True
-
-    if isUserInDatabase(db_path,user_name):
-        return False
 
     return False
 
