@@ -25,11 +25,11 @@ def getHistorique(roomName):
     return historique
 
 # Fonction à appeler à la connection d'un user pour l'ajouter dans le db
-# roomInfo: user:'username',room:'nomRoom'
+# roomInfo: 
 # Table Room: (name, password,private[boolean],size[interger])
 @socketio.on('Signup_room')
 def add_room(roomInfo):
-	# à faire : faire référence au US-22
+	# faire référence au US-22
 	addRoom(db_path,roomInfo['roomname'], roomInfo['password'], roomInfo['private'], roomInfo['size'])
 
 # Fonction à appeler à la connection d'un user pour l'ajouter dans le db
@@ -61,7 +61,7 @@ def join_room(room,username):
 		emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.format(username)}, room=room)
 	elif idroom == NULL:
 		print('\033[91mServer log\033[0m Please sign up with this roomname')
-		emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.forma(room)}, room=room)
+		emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.format(room)}, room=room)
 	else:
 		join_roomfromid(iduser,idroom)
 		print('\033[91mServer log\033[0m {} has joined {}'.format(data['username'], data['room']))
