@@ -126,7 +126,7 @@ class testBDD(unittest.TestCase):
 		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
 
-        # Username avec nombre
+		# Username avec nombre
 		username = "Username0"
 		self.assertFalse(QuickChat_bdd.verifyUserName(username))
 
@@ -138,11 +138,19 @@ class testBDD(unittest.TestCase):
 		username = "Username"
 		self.assertTrue(QuickChat_bdd.verifyUserName(username))
 
-		# Utilisateur déjà existant
-		QuickChat_bdd.addUser(self.db_path, "User", "Passw0rd!")
-		username = "User"
-		self.assertFalse(QuickChat_bdd.verifyUserName(username))
+		return
 
+	def testIsUserInDatabase(self) :
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+		
+		sql = 'INSERT INTO User (username, password) VALUES ("user0","pass123456")'
+		self.cursor.execute(sql)
+		self.connect.commit()
+		
+		self.assertTrue(QuickChat_bdd.isUserInDatabase(self.db_path, 'user0'))
+		self.assertFalse(QuickChat_bdd.isUserInDatabase(self.db_path, 'user1'))
+		
 		return
 
 
