@@ -51,12 +51,12 @@ def affichageHistorique(data_historique):
     if not data_historique:
         print("pas d'historique")
         return False
-    
-    return True
 
     for message in data_historique :
         print(message)
         print('\n')
+
+    return True
 
 def main():
     """ Gestion des arguments passés lors de l'éxécution du script """
