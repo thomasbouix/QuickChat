@@ -31,6 +31,10 @@ def disconnect():
 def connexion():
     sio.connect('http://{}:{}'.format(host, str(port)))
 
+#Fonction permettant de se deconnecter
+def deconnexion():
+    sio.disconnect()
+    
 def main():
     arguments = docopt(help)
     if arguments['-p']:
