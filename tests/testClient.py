@@ -5,6 +5,8 @@ sys.path[:0] = ['../']
 import QuickChat_server, QuickChat_client, QuickChat_bdd
 import shutil,shlex, subprocess
 
+import time
+
 class testClient(unittest.TestCase):
 
     list_subprocess = []
