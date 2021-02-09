@@ -42,13 +42,17 @@ def deconnexion():
 
 @sio.on('historique')
 def affichageHistorique(data_historique):
-    if type(data_historique) != list:
+    """ Description : TODO """
+
+    if isinstance(data_historique, list):
         print("pas type list")
         return False
 
     if not data_historique:
         print("pas d'historique")
         return False
+    
+    return True
 
     for message in data_historique :
         print(message)
