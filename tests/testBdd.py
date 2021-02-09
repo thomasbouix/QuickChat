@@ -164,8 +164,8 @@ class testBDD(unittest.TestCase):
         self.assertTrue(QuickChat_bdd.verifyUserName(username))
 
         # Utilisateur déjà existant
-        QuickChat_bdd.addUser(self.db_path, "User", "Passw0rd!")
-        username = "User"
+        QuickChat_bdd.addUser(self.db_path, "Username", "Passw0rd!")
+        username = "Username"
         self.assertFalse(QuickChat_bdd.verifyUserName(username))
 
         return
