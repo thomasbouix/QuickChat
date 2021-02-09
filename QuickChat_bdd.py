@@ -78,6 +78,7 @@ def addMessage(db_path, userId, roomId, mess):
     connect.commit()
 
 def addmessagefromclient(username,payload):
+    """ Fonction : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -145,8 +146,8 @@ def addUser(db_path, username, password):
 
     connect.commit()
 
-
 def getIDfromusername(username):
+    """ Fonction : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -160,6 +161,7 @@ def getIDfromusername(username):
     return iduser
 
 def join_roomfromid(iduser,idroom):
+    """ Fonction : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
     sql = 'INSERT INTO RoomUser (idroom,iduser) VALUES (?,?);'
@@ -168,6 +170,7 @@ def join_roomfromid(iduser,idroom):
     connect.commit()
 
 def leave_room(room,username):
+    """ Fonction : TODO """
     iduser = getIDfromusername(username)
     idroom = getRoomId(db_path,room)
     connect = sqlite3.connect(db_path)
