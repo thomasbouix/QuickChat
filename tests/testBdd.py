@@ -170,7 +170,7 @@ class testBDD(unittest.TestCase):
 		sql = 'select idroom from RoomUser where iduser = "{}";'.format(iduser)
 		self.assertEqual(self.cursor.execute(sql).fetchall()[0][0], idroom)
 
-	def test_join_roomfromid(self):
+	def test_leave_room(self):
 		QuickChat_bdd.deleteDb(self.db_path)
 		QuickChat_bdd.createDb(self.db_path)
 		
