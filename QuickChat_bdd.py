@@ -96,8 +96,6 @@ def addmessagefromclient(username,payload):
 def verifyUserName(user_name):
     """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
-    connect = sqlite3.connect(db_path)
-    cursor = connect.cursor()
     has_number = False
     has_special_character = False
 
@@ -108,10 +106,7 @@ def verifyUserName(user_name):
             has_special_character = True
 
     if (not has_number) and (not has_special_character):
-        sql = 'SELECT username FROM User;'
-        user_names = cursor.execute(sql).fetchall()
-        if user_name not in [name[0] for name in user_names]:
-            return True
+        return True
     return False
 
 def verifyUserPassword(user_password):
@@ -132,6 +127,21 @@ def verifyUserPassword(user_password):
             return True
 
     return False
+
+def isUserInDatabase(db_path, username):
+    """ Description : TODO """
+
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+
+    sql = 'SELECT username FROM User;'
+    usernames = cursor.execute(sql).fetchall()
+
+    if username in [name[0] for name in usernames]:
+        return True
+
+    return False
+
 
 def addUser(db_path, username, password):
     """ Description : TODO """
