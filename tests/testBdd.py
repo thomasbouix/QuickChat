@@ -153,20 +153,20 @@ class testBDD(unittest.TestCase):
         QuickChat_bdd.createDb(self.db_path)
         # Username avec nombre
         username = "Username0"
-        self.assertFalse(QuickChat_bdd.verifyUserName(db_path,username))
+        self.assertFalse(QuickChat_bdd.verifyUserName(self.db_path,username))
 
         # Username avec caractère spécial
         username = "Username!"
-        self.assertFalse(QuickChat_bdd.verifyUserName(db_path,username))
+        self.assertFalse(QuickChat_bdd.verifyUserName(self.db_path,username))
 
         # Username correct
         username = "Username"
-        self.assertTrue(QuickChat_bdd.verifyUserName(db_path,username))
+        self.assertTrue(QuickChat_bdd.verifyUserName(self.db_path,username))
 
         # Utilisateur déjà existant
         QuickChat_bdd.addUser(self.db_path, "Username", "Passw0rd!")
         username = "Username"
-        self.assertFalse(QuickChat_bdd.verifyUserName(db_path,username))
+        self.assertFalse(QuickChat_bdd.verifyUserName(self.db_path,username))
 
         return
 
