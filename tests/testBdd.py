@@ -28,6 +28,7 @@ class testBDD(unittest.TestCase):
 		self.assertIn(('Room',), res)
 		self.assertIn(('User',), res)
 		self.assertIn(('Message',), res)
+		self.assertIn(('RoomUser',), res)
 		self.assertIn(('sqlite_sequence',), res)
 
 	def test_deleteDb(self):
