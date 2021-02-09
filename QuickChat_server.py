@@ -1,14 +1,15 @@
 """
     QuickChat_server : Gestion de l'historique d'une room
 """
+from QuickChat_bdd import *
+from datetime import datetime
 # for socketio
 import eventlet
 eventlet.monkey_patch()
 
-from datetime import datetime
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room
-from QuickChat_bdd import *
+
 
 # Nom de la BDD
 db_path = 'quick_chat.db'
