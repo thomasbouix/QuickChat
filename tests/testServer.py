@@ -69,7 +69,7 @@ class testServer(unittest.TestCase):
         self.sio_test.connect('http://localhost:5000')
 
         #Création de la BDD
-        bdd.createDb(self.db_path)
+        bdd.resetDb(self.db_path)
         req = "INSERT INTO ROOM(name, password, private, size) VALUES(\"room_test\", \"\", 1, 10);"
         self.cursor.execute(req)
         self.conn.commit()
@@ -150,7 +150,6 @@ class testServer(unittest.TestCase):
         self.conn.commit()
         # print(res)
         self.assertEqual(res, [(4, 2, 1, 'Bonjour tout le monde !')])
-        # self.kill_subprocess()
 
 if __name__ == '__main__':
     unittest.main()
