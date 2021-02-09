@@ -72,6 +72,13 @@ def listArg(arg):
     data['room'] = arg[1]
     return data
 
+# Message retour serveur
+@sio.on('message')
+def response(data):
+    """Affichage des messages"""
+    print(data)
+
+
 def main():
     """ Gestion des arguments passés lors de l'éxécution du script """
     arguments = docopt(help)
