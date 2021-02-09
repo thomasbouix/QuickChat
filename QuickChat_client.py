@@ -1,3 +1,6 @@
+"""
+    QuickChat_client : Gestion des messages clients et des arguments lors de l'execution du script
+"""
 import socketio
 from docopt import docopt
 
@@ -5,7 +8,6 @@ sio = socketio.Client()
 host = 'localhost'
 port = 5000
 
-# Gestion des arguments passés lors de l'éxécution du script
 help = """
 Usage:
     QuickChat_client.py <username> <room> [--host <name> -p <port>]
@@ -16,22 +18,24 @@ Options:
     -p <port>       : Choix du port (defaut: 5000)
 """
 
-# Affichage d'un message lorsque le client reçois un évènement de connexion du serveur
+
 @sio.on('connect')
 def connect():
-    if(sio.connected):
+    """ Affichage d'un message lorsque le client reçois un évènement de connexion du serveur """
+    if sio.connected:
         print('\033[32msuccessfully connected\033[39m')
 
-# Affichage d'un message en cas de perte de connexion avec le serveur
 @sio.on('disconnect')
 def disconnect():
+    """ Affichage d'un message en cas de perte de connexion avec le serveur """
     print('\033[31mdisconnected\033[39m')
 
-# Fonction permettant une tentative de connexion au serveur
 def connexion():
+    """ Fonction permettant une tentative de connexion au serveur """
     sio.connect('http://{}:{}'.format(host, str(port)))
 
 def main():
+    """ Gestion des arguments passés lors de l'éxécution du script """
     arguments = docopt(help)
     if arguments['-p']:
         port = arguments['-p']
