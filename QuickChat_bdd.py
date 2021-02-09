@@ -58,7 +58,7 @@ def getRoomId(db_path, roomName):
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
     sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
-    if cursor.execute(sql).fetchone() == None : #Exception table Room vide
+    if cursor.execute(sql).fetchone() is None : #Exception table Room vide
         return None
     roomId = cursor.execute(sql).fetchone()[0]
     return roomId

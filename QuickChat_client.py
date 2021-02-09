@@ -59,7 +59,7 @@ def writeMessage(data):
 
 # Vérification du nombre d'arguments
 def verifArg(nbArg):
-    if (nbArg == 2 or nbArg == 4):
+    if (nbArg in (2,4)):
         return True
     return False
 
