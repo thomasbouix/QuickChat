@@ -48,14 +48,27 @@ def getUsernameById(db_path, userId):
 
 	return username
 
+# ecrire par US22
+def addRoom(name, password, private, size):
+	conn = sqlite3.connect(db_path)
+	c = conn.cursor()
+
+	# Insert a new room in table
+	req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
+	c.execute(req)
+	conn.commit()
+
 
 def getRoomId(db_path, roomName):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
+	roomId = 0
 
 	sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
-	roomId = cursor.execute(sql).fetchone()[0]
-
+	res = cursor.execute(sql).fetchall()
+	if res:
+		roomId = res[0][0]
+	
 	return roomId
 
 def addMessage(db_path, userId, roomId, mess):
@@ -114,7 +127,9 @@ def addUser(db_path, username, password):
 def getIDfromusername(username):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	
+
+	iduser = 0
+
 	sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
 	for row in cursor.execute(sql):
 		iduser = row[0]
@@ -143,5 +158,3 @@ def leave_room(room,username):
 
 # Db creation :
 db_path = 'quick_chat.db'
-
-#createDb(db_path)
