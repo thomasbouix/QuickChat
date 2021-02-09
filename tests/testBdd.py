@@ -122,45 +122,26 @@ class testBDD(unittest.TestCase):
 			name = row[0]
 		self.assertEqual(name,'')
 	
-	def testVerifyUserPassword(self):
-    	# Tests sur le Password
+	def test_VerifyUsername(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
 
-        # Inferieur à 8 caractères
-		password = "Pass"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+        # Username avec nombre
+		username = "Username0"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
 
-		# Pas de nombre/caractère spécial
-		password = "Passwords"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+		# Username avec caractère spécial
+		username = "Username!"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
 
-		# Pas de lettre/caractère spéciaux
-		password = "945530305"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
+		# Username correct
+		username = "Username"
+		self.assertTrue(QuickChat_bdd.verifyUserName(username))
 
-		# Pas de lettre/nombre
-		password = "§*$$µ*!_!"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
-
-		# Pas de lettre
-		password = "9455§0£0!"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
-
-		# Pas de nombre
-		password = "Passwo!§!"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
-
-		# Pas de caractère spécial
-		password = "P4ssw0rds"
-		self.assertTrue(not(QuickChat_bdd.verifyUserPassword(password)))
-
-		# Mot de passes valide aléatoire
-		for j in range(0, 10):          # Amélioration => tester tous les caractères
-			password = ""
-			for i in range(0, 7):
-				password += random.choice(string.ascii_letters)
-			password += random.choice(string.digits)
-			password += random.choice(string.punctuation)
-			self.assertTrue(QuickChat_bdd.verifyUserPassword(password))
+		# Utilisateur déjà existant
+		QuickChat_bdd.addUser(self.db_path, "User", "Passw0rd!")
+		username = "User"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
 
 		return
 
