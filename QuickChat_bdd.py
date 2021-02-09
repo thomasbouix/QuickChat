@@ -20,7 +20,7 @@ def deleteDb(db_path):
 	connect.commit()
 
 def resetDb(db_path) :
-	if (os.path.exists(db_path) == False) : 
+	if (os.path.exists(db_path) == False) :
 		createDb(db_path)
 	else :
 		deleteDb(db_path)
@@ -34,7 +34,7 @@ def getMessagesByRoomId(roomId):
 	messageList = cursor.execute(sql).fetchall()
 
 	return messageList
-	
+
 
 def getUsernameById(db_path, userId):
 	connect = sqlite3.connect(db_path)
@@ -51,6 +51,9 @@ def getRoomId(db_path, roomName):
 	cursor = connect.cursor()
 
 	sql = 'SELECT id FROM Room WHERE name="{}";'.format(roomName)
+	if cursor.execute(sql).fetchone() == None : #Exception table Room vide
+		return None
+
 	roomId = cursor.execute(sql).fetchone()[0]
 
 	return roomId
@@ -58,14 +61,14 @@ def getRoomId(db_path, roomName):
 def addMessage(db_path, userId, roomId, mess):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	
+
 	sql = 'INSERT INTO Message (userId, roomId,mess) VALUES (?,?,?)'
 	cursor.execute(sql,(userId,roomId,mess))
 	connect.commit()
-  
+
 
 def verifyUserPassword(user_password):
-	# Extra requirement: check the password have number,special character, length>8 
+	# Extra requirement: check the password have number,special character, length>8
 	is_number = 0
 	special_character = 0
 
@@ -79,21 +82,21 @@ def verifyUserPassword(user_password):
 	if len(user_password)>=8:
 		if is_number and special_character:
 			return True
-		
+
 	return False
 
 def addUser(db_path, username, password):
 
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	
-	
+
+
 	if verifyUserPassword(password):
 		sql = 'INSERT INTO User (username, password) VALUES (?,?)'
 		cursor.execute(sql,(username, password))
 
 	connect.commit()
-	
+
 
 # Db creation :
 db_path = 'quick_chat.db'
