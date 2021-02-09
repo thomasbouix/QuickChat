@@ -67,6 +67,7 @@ def message(data):
     usr = data['username']
     message = data['message']
     room = data['room']
+    print(room)
 
     #on recupere l'id de l'user
     #TODO : A remplacer après ajout de getUserId
