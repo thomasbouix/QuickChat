@@ -1,3 +1,4 @@
+
 """
     QuickChat_client : Gestion des messages clients et des arguments lors de l'execution du script
 """
@@ -8,6 +9,8 @@ from docopt import docopt
 sio = socketio.Client()
 host = 'localhost'
 port = 5000
+
+# Gestion des arguments passés lors de l'éxécution du script
 
 help = """
 Usage:

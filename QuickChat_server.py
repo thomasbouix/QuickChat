@@ -1,16 +1,17 @@
-
 """
     QuickChat_server : Gestion de l'historique d'une room
 """
-
-import sqlite3
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit
 from datetime import datetime
 from QuickChat_bdd import *
-from flask import Flask, render_template
-from flask_socketio import SocketIO, emit, join_room, leave_room
+
 # for socketio
 import eventlet
 import time
+
+eventlet.monkey_patch()
+
 
 # Nom de la BDD
 db_path = 'quick_chat.db'
@@ -18,6 +19,7 @@ db_path = 'quick_chat.db'
 app = Flask(__name__)
 app.config['TESTING'] = True
 socketio = SocketIO(app, async_mode='eventlet')
+
 
 @socketio.on('connexion')
 def connexion(data):
@@ -28,7 +30,7 @@ def connexion(data):
     #On recupere les données du message envoyé
     usr = data['username']
     room = data['room']
-    join_room(room)
+    join_room(room,usr)
 
     # print("User : {}, Room : {}".format(usr, room))
 
@@ -96,6 +98,58 @@ def getHistorique(roomName):
 
     return historique
 
+
+@socketio.on('Signup_room')
+def add_room(roomInfo):
+    """ Fonction créer un Room """
+    addRoom(roomInfo['roomname'], roomInfo['password'], roomInfo['private'], roomInfo['size'])
+
+
+@socketio.on('Signup_user')
+def add_user(data):
+    """ Fonction créer un user """
+    addUser(db_path,data['username'],data['password'])
+
+@socketio.on('message')
+def handle_message(data):
+    """ Fonction : TODO """
+    username = data['username']
+    payload = data['payload']
+    addmessagefromclient(username,payload)
+    print('received message from {}: '.format(data['username']) + data['payload'])
+    # socketio.emit('message', data, broadcast=True, room=data['room'])
+
+@socketio.on('join')
+def on_join(data):
+    """ Fonction : join the user into a room """
+    username = data['username']
+    room = data['room']
+    join_room(room,username)
+
+def join_room(room,username):
+    """ Fonction : Join room """
+    iduser = getIDfromusername(username)
+    idroom = getRoomId(db_path,room)
+    if iduser == 0:
+        print('\033[91mServer log\033[0m Please sign up with this username')
+        # emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.format(username)}, room=room)
+    elif idroom == 0:
+        print('\033[91mServer log\033[0m Please sign up with this roomname')
+        # emit('message', {'username': 'server' ,'payload': '\033[94m{} is not declared.\033[0m'.format(room)}, room=room)
+    else:
+        join_roomfromid(iduser,idroom)
+        print('\033[91mServer log\033[0m {} has joined {}'.format(username, room))
+        # emit('message', {'username': 'server' ,'payload': '\033[94m{} has entered the room.\033[0m'.format(username)}, room=room)
+
+@socketio.on('leave')
+def on_leave(data):
+    """ Fonction : delete room-user """
+    username = data['username']
+    room = data['room']
+    leave_room(room,username)
+    print('\033[91mServer log\033[0m {} has left {}'.format(data['username'], data['room']))
+    # emit('message', {'username': 'server', 'payload': '\033[94m{} has left the room.\033[0m'}.format(username), room=room)
+
 # private = 1: private, private = 0: public
 def addRoom(name, password, private, size):
     """ Description : TODO """
@@ -106,6 +160,7 @@ def addRoom(name, password, private, size):
     req = 'INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);' % (name, password, private, size)
     c.execute(req)
     conn.commit()
+
 
 def main():
     """ MAIN """

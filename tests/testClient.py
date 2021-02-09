@@ -2,6 +2,7 @@
 
 import unittest, os, sys, unittest
 sys.path[:0] = ['../']
+
 import QuickChat_server, QuickChat_client, QuickChat_bdd
 import shutil,shlex, subprocess
 
@@ -41,7 +42,6 @@ class testClient(unittest.TestCase):
     def tearDown(self):
         QuickChat_client.deconnexion()
         self.kill_subprocess()
-
 
 if __name__ == '__main__':
     unittest.main()

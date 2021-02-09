@@ -12,6 +12,8 @@ def createDb(db_path):
     cursor.execute('CREATE TABLE Room ([id] INTEGER PRIMARY KEY AUTOINCREMENT,[name] TEXT UNIQUE NOT NULL, [password] TEXT NOT NULL, [private] BOOLEAN NOT NULL, [size] INTEGER NOT NULL)')
     cursor.execute('CREATE TABLE User ([id] INTEGER PRIMARY KEY AUTOINCREMENT,[username] TEXT UNIQUE NOT NULL, [password] TEXT NOT NULL)')
     cursor.execute('CREATE TABLE Message ([id] INTEGER PRIMARY KEY AUTOINCREMENT,[userId] INTEGER NOT NULL, [roomId] INTEGER NOT NULL, [mess] TEXT NOT NULL, [sendDate] TIMESTAMP DEFAULT CURRENT_TIMESTAMP, FOREIGN KEY(userId) REFERENCES User(id), FOREIGN KEY(roomId) REFERENCES Room(id))')
+    cursor.execute('CREATE TABLE RoomUser ([idroom] INTEGER NOT NULL, [iduser] INTEGER NOT NULL)')
+
     connect.commit()
 
 def deleteDb(db_path):
@@ -22,6 +24,8 @@ def deleteDb(db_path):
     cursor.execute('DROP TABLE IF EXISTS Room')
     cursor.execute('DROP TABLE IF EXISTS User')
     cursor.execute('DROP TABLE IF EXISTS Message')
+    cursor.execute('DROP TABLE IF EXISTS RoomUser')
+
 
     connect.commit()
 
@@ -73,6 +77,22 @@ def addMessage(db_path, userId, roomId, mess):
     cursor.execute(sql,(userId,roomId,mess))
     connect.commit()
 
+def addmessagefromclient(username,payload):
+    """ Fonction : TODO """
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+
+    sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
+    for row in cursor.execute(sql):
+        iduser = row[0]
+
+    sql = 'SELECT idroom FROM RoomUser where iduser = {}'.format(iduser)
+    for row in cursor.execute(sql):
+        idroom = row[0]
+    connect.commit()
+
+    addMessage(db_path,iduser,idroom,payload)
+
 def verifyUserName(user_name):
     """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
@@ -87,6 +107,7 @@ def verifyUserName(user_name):
 
     if (not has_number) and (not has_special_character):
         return True
+
     return False
 
 def verifyUserPassword(user_password):
@@ -133,6 +154,41 @@ def addUser(db_path, username, password):
     if verifyUserPassword(password):
         sql = 'INSERT INTO User (username, password) VALUES (?,?)'
         cursor.execute(sql,(username, password))
+
+    connect.commit()
+
+def getIDfromusername(username):
+    """ Fonction : TODO """
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+
+    iduser = 0
+
+    sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
+    for row in cursor.execute(sql):
+        iduser = row[0]
+
+    connect.commit()
+    return iduser
+
+def join_roomfromid(iduser,idroom):
+    """ Fonction : TODO """
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+    sql = 'INSERT INTO RoomUser (idroom,iduser) VALUES (?,?);'
+    cursor.execute(sql,(idroom,iduser))
+
+    connect.commit()
+
+def leave_room(room,username):
+    """ Fonction : TODO """
+    iduser = getIDfromusername(username)
+    idroom = getRoomId(db_path,room)
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+
+    sql = 'DELETE FROM RoomUser WHERE idroom = {}'.format(idroom)
+    cursor.execute(sql)
 
     connect.commit()
 
