@@ -22,13 +22,14 @@ def connexion(data):
     #On recupere les données du message envoyé
     usr = data['username']
     room = data['room']
+
     join_room(room)
 
     # print("User : {}, Room : {}".format(usr, room))
 
     #On recupere l'id de la room choisie
     id_room = getRoomId(db_path, room)
-    
+
     if id_room is not None:
         #TODO : Quand room_id sera ajouté dans la table username,le rajouter
         #dans la requête
@@ -45,6 +46,8 @@ def connexion(data):
     else:
         print('Erreur, aucune room correspondante.')
 
+
+
     conn.close()
 
 import time
@@ -57,6 +60,7 @@ def message(data):
     #On recupere les données du message envoyé
     usr = data['username']
     message = data['message']
+    room = data['room']
 
     #on recupere l'id de l'user
     #TODO : A remplacer après ajout de getUserId
@@ -64,7 +68,7 @@ def message(data):
     user_id = c.execute(req).fetchall()[0][0]
 
     #On recupere l'id de la room
-    room_id = getRoomId(db_path, "room_test")
+    room_id = getRoomId(db_path,room)
 
     #Ajout du message à la BDD
     addMessage(db_path, user_id, room_id, message)
@@ -77,7 +81,7 @@ def message(data):
     #on recupere le sid
     # sid = request.namespace.socket.sessid
 
-    socketio.emit('message', message, room="room_test")
+    socketio.emit('message', message, room=room)
 
 def getHistorique(roomName):
     historique = []
