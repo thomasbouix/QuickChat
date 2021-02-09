@@ -116,10 +116,11 @@ def isUserInDatabase(db_path, username):
 
     sql = 'SELECT username FROM User;'
     usernames = cursor.execute(sql).fetchall()
-    
+
     if username in [name[0] for name in usernames]:
         return True
-
+    
+    return False
 
 
 def addUser(db_path, username, password):
