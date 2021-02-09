@@ -199,7 +199,13 @@ disable=print-statement,
         known-third-party,
         preferred-module,
         defining-attr-methods,
-        valid-classmethod-first-arg
+        valid-classmethod-first-arg,
+        invalid-line,
+        line-too-long
+
+
+
+
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
