@@ -3,8 +3,7 @@ name: test
 
 on:
   push:
-    branches: [ master ]
-    branches: [ DO1-pylint_config ] 
+    branches: [ master, DO1-pylint_config ]
   pull_request:
     branches: [ master ]
 
