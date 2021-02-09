@@ -44,11 +44,11 @@ def deconnexion():
 def affichageHistorique(data_historique):
     if type(data_historique) != list:
         print("pas type list")
-            return False
+        return False
 
     if not data_historique:
         print("pas d'historique")
-            return False
+        return False
 
     for message in data_historique :
         print(message)
