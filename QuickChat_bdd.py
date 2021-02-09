@@ -74,6 +74,7 @@ def addMessage(db_path, userId, roomId, mess):
     connect.commit()
 
 def verifyUserName(user_name):
+    """ Description : TODO """
     # Extra requirement: user_name has to be unique and cannot have number or special character
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
@@ -91,8 +92,8 @@ def verifyUserName(user_name):
         user_names = cursor.execute(sql).fetchall()
         if user_name not in [name[0] for name in user_names]:
             return True
-
-	return False
+            
+    return False
 
 def verifyUserPassword(user_password):
     """ Description : TODO """
