@@ -208,9 +208,8 @@ disable=print-statement,
         unused-import,
         unused-wildcard-import,
         redefined-builtin,
-        wrong-import-order
-
-
+        wrong-import-order,
+        wildcard-import
 
 
 
