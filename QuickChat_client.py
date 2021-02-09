@@ -35,6 +35,10 @@ def connexion():
     """ Fonction permettant une tentative de connexion au serveur """
     sio.connect('http://{}:{}'.format(host, str(port)))
 
+#Fonction permettant de se deconnecter
+def deconnexion():
+    sio.disconnect()
+    
 def main():
     """ Gestion des arguments passés lors de l'éxécution du script """
     arguments = docopt(help)
