@@ -64,6 +64,7 @@ def getRoomId(db_path, roomName):
     return roomId
 
 def addMessage(db_path, userId, roomId, mess):
+    """Ajout d'un message dans la table Message"""
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 

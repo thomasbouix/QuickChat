@@ -31,7 +31,7 @@ def connect():
         data = listArg(arg)
         sio.emit('connexion', data)
         sio.sleep(1)
-        while(1):
+        while:
             mess = writeMessage(data)
             sio.emit('message_user', mess)
 
@@ -49,9 +49,9 @@ def deconnexion():
     """ Description : TODO """
     sio.disconnect()
 
-
 # Fonction pour écrire un message
 def writeMessage(data):
+    """Fonction d'écriture d'un message"""
     data['message'] = input()
     screen_code = "\033[1A[\033[2K"
     sys.stdout.write( screen_code )
@@ -59,12 +59,14 @@ def writeMessage(data):
 
 # Vérification du nombre d'arguments
 def verifArg(nbArg):
-    if (nbArg in (2,4)):
+    """Vérification du nombre d'arguments"""
+    if nbArg in (2,4):
         return True
     return False
 
 # Stocke dans data: username et room
 def listArg(arg):
+    """Sauvegarde des arguments dans la variable data"""
     data = {}
     data['username'] = arg[0]
     data['room'] = arg[1]
