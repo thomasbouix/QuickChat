@@ -209,7 +209,8 @@ disable=print-statement,
         unused-wildcard-import,
         redefined-builtin,
         wrong-import-order,
-        wildcard-import
+        wildcard-import,
+        W0511
 
 
 

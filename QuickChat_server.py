@@ -10,6 +10,7 @@ from flask import Flask, render_template
 from flask_socketio import SocketIO, emit, join_room, leave_room
 # for socketio
 import eventlet
+import time
 
 # Nom de la BDD
 db_path = 'quick_chat.db'
@@ -20,6 +21,7 @@ socketio = SocketIO(app, async_mode='eventlet')
 
 @socketio.on('connexion')
 def connexion(data):
+    """ Description : TODO """
     conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 
@@ -32,7 +34,7 @@ def connexion(data):
 
     #On recupere l'id de la room choisie
     id_room = getRoomId(db_path, room)
-    
+
     if id_room is not None:
         #TODO : Quand room_id sera ajouté dans la table username,le rajouter
         #dans la requête
@@ -51,10 +53,10 @@ def connexion(data):
 
     conn.close()
 
-import time
 @socketio.on('message_user')
 # @socketio.event
 def message(data):
+    """ Description : TODO """
     conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 

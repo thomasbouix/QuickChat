@@ -37,8 +37,9 @@ def connexion():
 
 #Fonction permettant de se deconnecter
 def deconnexion():
+    """ Description : TODO """
     sio.disconnect()
-    
+
 def main():
     """ Gestion des arguments passés lors de l'éxécution du script """
     arguments = docopt(help)
