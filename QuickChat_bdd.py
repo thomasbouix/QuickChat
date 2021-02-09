@@ -135,8 +135,9 @@ def leave_room(room,username):
 	idroom = getRoomId(db_path,room)
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	sql = 'DELETE FROM RoomUser (idroom,iduser) VALUES (?,?);'
-	cursor.execute(sql,(idroom,iduser))
+	
+	sql = 'DELETE FROM RoomUser WHERE idroom = {}'.format(idroom)
+	cursor.execute(sql)
 	
 	connect.commit()
 
