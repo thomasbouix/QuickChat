@@ -30,6 +30,7 @@ class testClient(unittest.TestCase):
         self.assertTrue(QuickChat_client.sio.connected)
 
     def tearDown(self):
+        QuickChat_client.deconnexion()
         self.kill_subprocess()
 
 
