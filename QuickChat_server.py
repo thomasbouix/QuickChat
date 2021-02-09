@@ -1,11 +1,16 @@
-from flask import Flask, render_template
-from flask_socketio import SocketIO, emit, join_room, leave_room
+
+"""
+    QuickChat_server : Gestion de l'historique d'une room
+"""
+
 import sqlite3
 from datetime import datetime
 from QuickChat_bdd import *
-
+from flask import Flask, render_template
+from flask_socketio import SocketIO, emit, join_room, leave_room
 # for socketio
 import eventlet
+import time
 
 # Nom de la BDD
 db_path = 'quick_chat.db'
@@ -16,6 +21,7 @@ socketio = SocketIO(app, async_mode='eventlet')
 
 @socketio.on('connexion')
 def connexion(data):
+    """ Description : TODO """
     conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 
@@ -50,10 +56,10 @@ def connexion(data):
 
     conn.close()
 
-import time
 @socketio.on('message_user')
 # @socketio.event
 def message(data):
+    """ Description : TODO """
     conn = sqlite3.connect('quick_chat.db')
     c = conn.cursor()
 
@@ -84,6 +90,7 @@ def message(data):
     socketio.emit('message', message, room=room)
 
 def getHistorique(roomName):
+    """ Fonction permettant de recupérer l'historique d'une Room """
     historique = []
     roomId = getRoomId(db_path, roomName)
     messages = getMessagesByRoomId(roomId)
@@ -92,7 +99,19 @@ def getHistorique(roomName):
 
     return historique
 
+# private = 1: private, private = 0: public
+def addRoom(name, password, private, size):
+    """ Description : TODO """
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    # Insert a new room in table
+    req = 'INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);' % (name, password, private, size)
+    c.execute(req)
+    conn.commit()
+
 def main():
+    """ MAIN """
     socketio.run(app)
 
 if __name__ == '__main__':

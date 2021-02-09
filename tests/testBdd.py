@@ -121,6 +121,29 @@ class testBDD(unittest.TestCase):
 		for row in  self.cursor.execute(sql):
 			name = row[0]
 		self.assertEqual(name,'')
+	
+	def test_VerifyUsername(self):
+		QuickChat_bdd.deleteDb(self.db_path)
+		QuickChat_bdd.createDb(self.db_path)
+
+        # Username avec nombre
+		username = "Username0"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
+
+		# Username avec caractère spécial
+		username = "Username!"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
+
+		# Username correct
+		username = "Username"
+		self.assertTrue(QuickChat_bdd.verifyUserName(username))
+
+		# Utilisateur déjà existant
+		QuickChat_bdd.addUser(self.db_path, "User", "Passw0rd!")
+		username = "User"
+		self.assertFalse(QuickChat_bdd.verifyUserName(username))
+
+		return
 
 
 if __name__ == '__main__':
