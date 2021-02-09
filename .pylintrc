@@ -204,7 +204,11 @@ disable=print-statement,
         line-too-long,
         invalid-name,
         unused-variable,
-        redefined-outer-name
+        redefined-outer-name,
+        unused-import,
+        unused-wildcard-import,
+        redefined-builtin,
+        wrong-import-order
 
 
 

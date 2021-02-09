@@ -1,6 +1,11 @@
-import sqlite3, os
+""" QuickChat_bdd.py
+    Description : TODO 
+"""
+import sqlite3
+import os
 
 def createDb(db_path):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -10,6 +15,7 @@ def createDb(db_path):
     connect.commit()
 
 def deleteDb(db_path):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -20,13 +26,15 @@ def deleteDb(db_path):
     connect.commit()
 
 def resetDb(db_path) :
-    if os.path.exists(db_path) == False : 
+    """ Description : TODO """
+    if not os.path.exists(db_path):
         createDb(db_path)
     else :
         deleteDb(db_path)
         createDb(db_path)
 
 def getMessagesByRoomId(roomId):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -36,6 +44,7 @@ def getMessagesByRoomId(roomId):
     return messageList
 
 def getUsernameById(db_path, userId):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -46,6 +55,7 @@ def getUsernameById(db_path, userId):
 
 
 def getRoomId(db_path, roomName):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -55,6 +65,7 @@ def getRoomId(db_path, roomName):
     return roomId
 
 def addMessage(db_path, userId, roomId, mess):
+    """ Description : TODO """
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
 
@@ -63,7 +74,8 @@ def addMessage(db_path, userId, roomId, mess):
     connect.commit()
 
 def verifyUserPassword(user_password):
-    # Extra requirement: check the password have number,special character, length>8 
+    """ Description : TODO """
+    # Extra requirement: check the password have number,special character, length>8
     is_number = 0
     special_character = 0
 
@@ -81,6 +93,7 @@ def verifyUserPassword(user_password):
     return False
 
 def addUser(db_path, username, password):
+    """ Description : TODO """
 
     connect = sqlite3.connect(db_path)
     cursor = connect.cursor()
