@@ -76,11 +76,11 @@ def addMessage(db_path, userId, roomId, mess):
     sql = 'INSERT INTO Message (userId, roomId,mess) VALUES (?,?,?)'
     cursor.execute(sql,(userId,roomId,mess))
     connect.commit()
-    
+
 def addmessagefromclient(username,payload):
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	
+
 	sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
 	for row in cursor.execute(sql):
 		iduser = row[0]
@@ -89,10 +89,30 @@ def addmessagefromclient(username,payload):
 	for row in cursor.execute(sql):
 		idroom = row[0]
 	connect.commit()
-	
-	addMessage(db_path,iduser,idroom,payload)
 
-  
+	addMessage(db_path,iduser,idroom,payload)
+	
+def verifyUserName(user_name):
+    """ Description : TODO """
+    # Extra requirement: user_name has to be unique and cannot have number or special character
+    connect = sqlite3.connect(db_path)
+    cursor = connect.cursor()
+    has_number = False
+    has_special_character = False
+
+    for c in user_name:
+        if c.isdigit():
+            has_number = True
+        if (not c.islower()) and (not c.isupper())  and (not c.isdigit()):
+            has_special_character = True
+
+    if (not has_number) and (not has_special_character):
+        sql = 'SELECT username FROM User;'
+        user_names = cursor.execute(sql).fetchall()
+        if user_name not in [name[0] for name in user_names]:
+            return True
+    return False
+
 def verifyUserPassword(user_password):
     """ Description : TODO """
     # Extra requirement: check the password have number,special character, length>8
@@ -124,7 +144,7 @@ def addUser(db_path, username, password):
         cursor.execute(sql,(username, password))
 
     connect.commit()
-    
+
 # ecrire par US22
 def addRoom(name, password, private, size):
 	conn = sqlite3.connect(db_path)
@@ -144,7 +164,7 @@ def getIDfromusername(username):
 	sql = 'SELECT id FROM User WHERE username = "{}";'.format(username)
 	for row in cursor.execute(sql):
 		iduser = row[0]
-	
+
 	connect.commit()
 	return iduser
 
@@ -153,7 +173,7 @@ def join_roomfromid(iduser,idroom):
 	cursor = connect.cursor()
 	sql = 'INSERT INTO RoomUser (idroom,iduser) VALUES (?,?);'
 	cursor.execute(sql,(idroom,iduser))
-	
+
 	connect.commit()
 
 def leave_room(room,username):
@@ -161,10 +181,10 @@ def leave_room(room,username):
 	idroom = getRoomId(db_path,room)
 	connect = sqlite3.connect(db_path)
 	cursor = connect.cursor()
-	
+
 	sql = 'DELETE FROM RoomUser WHERE idroom = {}'.format(idroom)
 	cursor.execute(sql)
-	
+
 	connect.commit()
 
 

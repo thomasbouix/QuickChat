@@ -105,7 +105,7 @@ def add_room(roomInfo):
 
 @socketio.on('Signup_user')
 def add_user(data):
-	addUser(db_path,data['username'],data['password']) 
+	addUser(db_path,data['username'],data['password'])
 
 @socketio.on('message')
 def handle_message(data):
@@ -142,6 +142,17 @@ def on_leave(data):
 	leave_room(room,username)
 	print('\033[91mServer log\033[0m {} has left {}'.format(data['username'], data['room']))
 	# emit('message', {'username': 'server', 'payload': '\033[94m{} has left the room.\033[0m'}.format(username), room=room)
+
+# private = 1: private, private = 0: public
+def addRoom(name, password, private, size):
+    """ Description : TODO """
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
+
+    # Insert a new room in table
+    req = 'INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);' % (name, password, private, size)
+    c.execute(req)
+    conn.commit()
 
 
 def main():

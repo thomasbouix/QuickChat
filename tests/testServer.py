@@ -17,6 +17,15 @@ class testServer(unittest.TestCase):
 
     list_subprocess = []
 
+    # Classmethod appelé à la fin de tous les tests
+    # @classmethod
+    # def setUpClass(cls):
+    #     # Initialisation de la db et du path
+    #     cls.db_path = 'quick_chat.db'
+    #     print("Initialise cls.db_path to quick_chat.db")
+    #     cls.connect = sqlite3.connect(cls.db_path)
+    #     cls.cursor = cls.connect.cursor()
+
     def test_reception_historique(self):
         date = datetime.now()
         bdd.resetDb(self.db_path)
@@ -149,28 +158,48 @@ class testServer(unittest.TestCase):
         self.conn.commit()
         # print(res)
         self.assertEqual(res, [(4, 2, 1, 'Bonjour tout le monde !')])
-    
+
     # test US16
     def test_add_user(self):
         bdd.resetDb(self.db_path)
         connect = sqlite3.connect(self.db_path)
         cursor = connect.cursor()
 
-        # right password format 
+        # right password format
         userInfo = {'username':'user1','password':'Aa1234567,'}
         server.add_user(userInfo)
         sql = "SELECT password FROM User WHERE username='user1';"
-        res = cursor.execute(sql).fetchall()[0][0]    
-        self.assertEqual(res, "Aa1234567,") 
+        res = cursor.execute(sql).fetchall()[0][0]
+        self.assertEqual(res, "Aa1234567,")
 
-         # wrong password format 
+         # wrong password format
         userInfo = {'username':'user2','password':'123456789'}
         server.add_user(userInfo)
         sql = "SELECT password FROM User WHERE username='user2';"
-        self.assertNotIn(('123456789',),cursor.execute(sql).fetchall()) 
+        self.assertNotIn(('123456789',),cursor.execute(sql).fetchall())
 
         connect.commit()
 
+    def test_Add_Room(self):
+        # Test d'ajout d'une salle
+        bdd.resetDb(self.db_path)
+        server.addRoom("room1", "0000", False, 10)
+        print("Test de creation d'une room dans la table")
+        requete = "SELECT * FROM Room;"
+        resp = self.cursor.execute(requete).fetchall()
+        self.assertEqual(resp, [(1, 'room1', '0000', 0, 10)])
+
+        requete = "DROP TABLE Room;"
+        self.cursor.execute(requete)
+
+    # Classmethod appelé à la fin de tous les tests
+    # @classmethod
+    # def tearDownClass(cls):
+    #     cls.connect.close()
+    #     if(os.path.exists(cls.db_path)):
+    #         print("Destruction de la db")
+    #         os.remove(cls.db_path)
+    
     def test_add_room(self):
         bdd.resetDb(self.db_path)
         connect = sqlite3.connect(self.db_path)
@@ -185,12 +214,12 @@ class testServer(unittest.TestCase):
         self.assertEqual(res, "123456789")
 
         connect.commit()
-    
+
     def test_join_room(self):
         bdd.resetDb(self.db_path)
         connect = sqlite3.connect(self.db_path)
         cursor = connect.cursor()
-        # Sign up the room and the user 
+        # Sign up the room and the user
         roomInfo = {'roomname':'room1','password':'123456789','private':1,'size':50}
         server.add_room(roomInfo)
         userInfo = {'username':'user1','password':'Aa1234567,'}
@@ -202,6 +231,6 @@ class testServer(unittest.TestCase):
         self.assertEqual(cursor.execute(sql).fetchall()[0][0], 1)
 
         connect.commit()
-        
+
 if __name__ == '__main__':
     unittest.main()
