@@ -31,7 +31,7 @@ def connect():
         data = listArg(arg)
         sio.emit('connexion', data)
         sio.sleep(1)
-        while:
+        while(1):
             mess = writeMessage(data)
             sio.emit('message_user', mess)
 
