@@ -90,13 +90,13 @@ def getHistorique(roomName):
 
 # private = 1: private, private = 0: public
 def addRoom(name, password, private, size):
-		conn = sqlite3.connect(db_path)
-		c = conn.cursor()
+    conn = sqlite3.connect(db_path)
+    c = conn.cursor()
 
-		# Insert a new room in table
-		req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
-		c.execute(req)
-		conn.commit()
+    # Insert a new room in table
+    req = '''INSERT INTO Room (name, password, private, size) VALUES ("%s", "%s", %d, %d);''' % (name, password, private, size)
+    c.execute(req)
+    conn.commit()
 
 def main():
     socketio.run(app)
